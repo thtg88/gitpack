@@ -1,6 +1,6 @@
 <?php
 
-namespace Thtg88\MmCms\Http\Requests\Contracts;
+namespace App\Http\Requests\Contracts;
 
 interface IndexRequestInterface
 {
