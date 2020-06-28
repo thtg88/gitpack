@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8af2b5cc21d24a7bb2ae85b39bff162e",
+    "content-hash": "9fb3125e6609c2a8a973964b5ed93a81",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4216,16 +4216,16 @@
         },
         {
             "name": "thtg88/laravel-scaffold-commands",
-            "version": "v0.2.1",
+            "version": "v0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thtg88/laravel-scaffold-commands.git",
-                "reference": "941fd63ff81ee0dc21ce9e02a282f3d3c67180df"
+                "reference": "746606e055873441e3f8efe0870824a48cae7ca6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thtg88/laravel-scaffold-commands/zipball/941fd63ff81ee0dc21ce9e02a282f3d3c67180df",
-                "reference": "941fd63ff81ee0dc21ce9e02a282f3d3c67180df",
+                "url": "https://api.github.com/repos/thtg88/laravel-scaffold-commands/zipball/746606e055873441e3f8efe0870824a48cae7ca6",
+                "reference": "746606e055873441e3f8efe0870824a48cae7ca6",
                 "shasum": ""
             },
             "require": {
@@ -4269,7 +4269,7 @@
                 }
             ],
             "description": "Handy Laravel Scaffold Artisan Commands.",
-            "time": "2020-06-18T20:48:20+00:00"
+            "time": "2020-06-28T16:23:43+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
