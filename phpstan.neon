@@ -1,0 +1,14 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+parameters:
+    # The level 7 is the highest level
+    level: 1
+    paths:
+        - app
+        - config
+        - resources
+        - routes
+        - tests
+    # excludes_analyse:
+    #     - ./*/*/FileToBeExcluded.php
+    # checkMissingIterableValueType: false
