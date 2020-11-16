@@ -35,9 +35,17 @@ interface ResourceServiceInterface
      * Return all the model instances.
      *
      * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index(IndexRequestInterface $request);
+    public function index(IndexRequestInterface $request): Collection;
+
+    /**
+     * Return the paginated model instances.
+     *
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function paginate(PaginateRequestInterface $request): LengthAwarePaginator;
 
     /**
      * Restore a model instance from a given id.

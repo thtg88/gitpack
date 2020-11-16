@@ -2,17 +2,86 @@
 
 namespace App\Services\Concerns;
 
-use App\Http\Requests\Contracts\IndexRequestInterface;
+use App\Http\Requests\Contracts\PaginateRequestInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 trait WithPagination
 {
     /**
+     * Return all the model instances.
+     *
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function paginate(PaginateRequestInterface $request): LengthAwarePaginator
+    {
+        // Get input
+        $input = $request->only([
+            'page',
+            'page_size',
+            'recovery',
+            'sort_direction',
+            'sort_name',
+        ]);
+
+        $wheres = [];
+
+        $wheres = array_merge($wheres, $this->getFilterValues($request));
+
+        // Page falls back to 1
+        if (! array_key_exists('page', $input) || $input['page'] === null) {
+            $input['page'] = 1;
+        }
+
+        // Page size fall back to configs
+        if (
+            ! array_key_exists('page_size', $input) ||
+            $input['page_size'] === null
+        ) {
+            $input['page_size'] = config('app.pagination.page_size');
+        }
+
+        $input['q'] = $this->getSearchValue($request);
+
+        if (array_key_exists('recovery', $input) && $input['recovery'] == 1) {
+            // Set the repository to also fetch trashed models
+            $this->repository = $this->repository->withTrashed();
+
+            $wheres[] = [
+                'field' => 'deleted_at',
+                'operator' => '<>',
+                'value' => null,
+            ];
+        }
+
+        // Sort name fall back
+        if (empty($input['sort_name'])) {
+            $input['sort_name'] = null;
+        }
+
+        // Sort direction fall back
+        if (empty($input['sort_direction'])) {
+            $input['sort_direction'] = null;
+        }
+
+        // Get paginated resources
+        return $this->repository->paginate(
+            $input['page_size'],
+            $input['page'],
+            $input['q'],
+            $input['sort_name'],
+            $input['sort_direction'],
+            $wheres
+        );
+    }
+
+    /**
      * Return the map of filter values from a given request.
      *
-     * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
      * @return array
      */
-    public function getMapFilterValues(IndexRequestInterface $request): array
+    public function getMapFilterValues(PaginateRequestInterface $request): array
     {
         $filters = $this->getFilterValues($request);
 
@@ -58,10 +127,10 @@ trait WithPagination
     /**
      * Return the filter values from a given request.
      *
-     * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
      * @return array
      */
-    public function getFilterValues(IndexRequestInterface $request): array
+    public function getFilterValues(PaginateRequestInterface $request): array
     {
         $filters = $this->getDefaultFilterValues();
 
@@ -108,10 +177,10 @@ trait WithPagination
     /**
      * Return the search value from a given request.
      *
-     * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
      * @return string|null
      */
-    public function getSearchValue(IndexRequestInterface $request): ?string
+    public function getSearchValue(PaginateRequestInterface $request): ?string
     {
         if (empty($request->q) || ! is_string($request->q)) {
             return null;
@@ -123,10 +192,10 @@ trait WithPagination
     /**
      * Return the page size value from a given request.
      *
-     * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
      * @return int|null
      */
-    public function getPageSize(IndexRequestInterface $request): int
+    public function getPageSize(PaginateRequestInterface $request): int
     {
         if (
             empty($request->page_size) ||
@@ -141,10 +210,10 @@ trait WithPagination
     /**
      * Return the sort from a given request.
      *
-     * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
      * @return array
      */
-    public function getSort(IndexRequestInterface $request): array
+    public function getSort(PaginateRequestInterface $request): array
     {
         $default_order_by_columns = $this->repository
             ->getDefaultOrderByColumns();
@@ -179,10 +248,10 @@ trait WithPagination
     /**
      * Return the pagination data from a given request.
      *
-     * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
      * @return array
      */
-    public function getPaginationData(IndexRequestInterface $request): array
+    public function getPaginationData(PaginateRequestInterface $request): array
     {
         return [
             'filter_map' => $this->getMapFilterValues($request),

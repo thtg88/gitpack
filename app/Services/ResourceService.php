@@ -77,68 +77,11 @@ class ResourceService implements ResourceServiceInterface
      * Return all the model instances.
      *
      * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index(IndexRequestInterface $request): LengthAwarePaginator
+    public function index(IndexRequestInterface $request): Collection
     {
-        // Get input
-        $input = $request->only([
-            'page',
-            'page_size',
-            'recovery',
-            'sort_direction',
-            'sort_name',
-        ]);
-
-        $wheres = [];
-
-        $wheres = array_merge($wheres, $this->getFilterValues($request));
-
-        // Page falls back to 1
-        if (! array_key_exists('page', $input) || $input['page'] === null) {
-            $input['page'] = 1;
-        }
-
-        // Page size fall back to configs
-        if (
-            ! array_key_exists('page_size', $input) ||
-            $input['page_size'] === null
-        ) {
-            $input['page_size'] = config('app.pagination.page_size');
-        }
-
-        $input['q'] = $this->getSearchValue($request);
-
-        if (array_key_exists('recovery', $input) && $input['recovery'] == 1) {
-            // Set the repository to also fetch trashed models
-            $this->repository = $this->repository->withTrashed();
-
-            $wheres[] = [
-                'field' => 'deleted_at',
-                'operator' => '<>',
-                'value' => null,
-            ];
-        }
-
-        // Sort name fall back
-        if (empty($input['sort_name'])) {
-            $input['sort_name'] = null;
-        }
-
-        // Sort direction fall back
-        if (empty($input['sort_direction'])) {
-            $input['sort_direction'] = null;
-        }
-
-        // Get paginated resources
-        return $this->repository->paginate(
-            $input['page_size'],
-            $input['page'],
-            $input['q'],
-            $input['sort_name'],
-            $input['sort_direction'],
-            $wheres
-        );
+        return $this->repository->all();
     }
 
     /**
