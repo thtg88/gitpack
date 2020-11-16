@@ -80,7 +80,7 @@
         "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no",
         "stan": [
             "vendor/bin/phpstan analyse --memory-limit=512M",
-            "vendor/bin/psalm"
+            "vendor/bin/psalm --no-cache"
         ],
         "test": "vendor/bin/phpunit"
     }
