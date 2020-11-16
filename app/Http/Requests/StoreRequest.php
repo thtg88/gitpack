@@ -6,6 +6,9 @@ use App\Http\Requests\Contracts\StoreRequestInterface;
 
 class StoreRequest extends Request implements StoreRequestInterface
 {
+    /** @var string */
+    protected $model_classname;
+
     /**
      * Determine if the user is authorized to make this request.
      *
