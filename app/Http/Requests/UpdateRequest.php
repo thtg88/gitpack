@@ -29,4 +29,16 @@ class UpdateRequest extends Request implements UpdateRequestInterface
     {
         return [];
     }
+
+    /**
+     * Return rules for which the input has been provided.
+     *
+     * @param array $rules
+     * @return array
+     */
+    protected function filterProvidedInputRules(array $rules): array
+    {
+        // Get necessary rules based on input (same keys basically)
+        return array_intersect_key($rules, $this->all());
+    }
 }
