@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Contracts\DestroyRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
 use App\Http\Requests\Contracts\UpdateRequestInterface;
+use App\Http\Requests\PaginateRequest;
 use Illuminate\Container\Container;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -54,6 +55,21 @@ class Controller extends BaseController
 
         return redirect($this->getBaseRoute())->with('resource_destroy_success', true)
             ->with('resource_name', $this->service->getResourceName());
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \App\Http\Requests\PaginateRequest $request
+     * @return \Illuminate\View\View
+     */
+    public function index(PaginateRequest $request)
+    {
+        // Get index resources
+        $resources = $this->service->paginate($request);
+
+        return view($this->getViewBaseFolder().'.index.main')
+            ->with('resources', $resources);
     }
 
     /**
