@@ -13,6 +13,13 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
+     * The controller-specific bindings.
+     *
+     * @var array
+     */
+    protected $bindings = [];
+
+    /**
      * The csv header row callback implementation.
      *
      * @var \Closure
@@ -153,13 +160,6 @@ class Controller extends BaseController
     {
         return Str::slug($this->getServiceName());
     }
-
-    /**
-     * The controller-specific bindings.
-     *
-     * @var array
-     */
-    protected $bindings = [];
 
     /**
      * Add controller specific bindings.
