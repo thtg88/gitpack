@@ -9,7 +9,7 @@ class DateFilterRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -19,7 +19,7 @@ class DateFilterRequest extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'start' => 'nullable|string|date_format:Y-m-d',

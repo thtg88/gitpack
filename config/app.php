@@ -229,4 +229,20 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Pagination
+    |--------------------------------------------------------------------------
+    |
+    | These variables regulate some basic pagination settings.
+    |
+    */
+
+    'pagination' => [
+        'columns' => env('PAGINATION_COLUMNS', '*'),
+
+        'page_name' => env('PAGINATION_PAGE_NAME', 'page'),
+
+        'page_size' => (int) env('PAGINATION_PAGE_SIZE', 10),
+    ],
 ];

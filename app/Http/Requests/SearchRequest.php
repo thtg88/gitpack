@@ -11,7 +11,7 @@ class SearchRequest extends Request implements SearchRequestInterface
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return $this->user()->can('search', $this->model_classname);
     }
@@ -21,7 +21,7 @@ class SearchRequest extends Request implements SearchRequestInterface
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'q' => 'required|string|min:2|max:255',

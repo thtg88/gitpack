@@ -4,10 +4,14 @@ namespace App\Services;
 
 use App\Http\Requests\Contracts\DestroyRequestInterface;
 use App\Http\Requests\Contracts\IndexRequestInterface;
+use App\Http\Requests\Contracts\PaginateRequestInterface;
 use App\Http\Requests\Contracts\RestoreRequestInterface;
 use App\Http\Requests\Contracts\SearchRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
 use App\Http\Requests\Contracts\UpdateRequestInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ResourceServiceInterface
 {
@@ -16,49 +20,57 @@ interface ResourceServiceInterface
      *
      * @param \App\Http\Requests\Contracts\DestroyRequestInterface $request
      * @param int $id The id of the model.
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function destroy(DestroyRequestInterface $request, $id);
+    public function destroy(DestroyRequestInterface $request, $id): ?Model;
 
     /**
      * Return the service name.
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Return all the model instances.
      *
      * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index(IndexRequestInterface $request);
+    public function index(IndexRequestInterface $request): Collection;
+
+    /**
+     * Return the paginated model instances.
+     *
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function paginate(PaginateRequestInterface $request): LengthAwarePaginator;
 
     /**
      * Restore a model instance from a given id.
      *
      * @param \App\Http\Requests\Contracts\RestoreRequestInterface $request
      * @param int $id The id of the model
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function restore(RestoreRequestInterface $request, $id);
+    public function restore(RestoreRequestInterface $request, $id): ?Model;
 
     /**
      * Return the model instances matching the given search query.
      *
      * @param \App\Http\Requests\Contracts\SearchRequestInterface $request
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function search(SearchRequestInterface $request);
+    public function search(SearchRequestInterface $request): Collection;
 
     /**
      * Returns a model from a given id.
      *
      * @param int $id The id of the instance.
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function show($id);
+    public function show($id): ?Model;
 
     /**
      * Create a new model instance in storage from the given data array.
@@ -66,14 +78,14 @@ interface ResourceServiceInterface
      * @param \App\Http\Requests\Contracts\StoreRequestInterface $request
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function store(StoreRequestInterface $request);
+    public function store(StoreRequestInterface $request): Model;
 
     /**
      * Updates a model instance with given data, from a given id.
      *
      * @param \App\Http\Requests\Contracts\UpdateRequestInterface $request
      * @param int $id The id of the model
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function update(UpdateRequestInterface $request, $id);
+    public function update(UpdateRequestInterface $request, $id): ?Model;
 }

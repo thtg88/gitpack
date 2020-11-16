@@ -11,7 +11,7 @@ class RestoreRequest extends Request implements RestoreRequestInterface
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         if ($this->authorizeResourceDeletedExist() === false) {
             return false;

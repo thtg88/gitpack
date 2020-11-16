@@ -3,6 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
+use RuntimeException;
 
 class DropDatabaseCommand extends Command
 {
@@ -34,7 +37,7 @@ class DropDatabaseCommand extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @throws RuntimeException If database connection not mysql nor pgsql, and if database name not configured (null or "forge").
+     * @throws \RuntimeException If database connection not mysql nor pgsql, and if database name not configured (null or "forge").
      */
     public function handle()
     {
@@ -54,7 +57,7 @@ class DropDatabaseCommand extends Command
         );
 
         if ($database_name === null || $database_name === 'forge') {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'Database not configured for: '.
                 $default_database_connection
             );
@@ -80,22 +83,20 @@ class DropDatabaseCommand extends Command
             return;
         }
 
-        throw new \RuntimeException(
+        throw new RuntimeException(
             'Database type not supported: '.
             $default_database_connection
         );
-
-        \DB::statement('CREATE DATABASE '.$database_name.';');
     }
 
     /**
      * Drop the PostgreSQL database from a given database name.
      *
      * @param string $database_name
-     * @return mixed
-     * @throws InvalidArgumentException If database does not exists
+     * @return void
+     * @throws \InvalidArgumentException If database does not exists
      */
-    protected function dropPostgreSql($database_name)
+    protected function dropPostgreSql(string $database_name): void
     {
         // We reset default database name to "postgres"
         // as we can not delete the database we are connected to
@@ -106,15 +107,15 @@ class DropDatabaseCommand extends Command
             static function ($database) {
                 return $database->datname;
             },
-            \DB::select('SELECT datname FROM pg_database')
+            DB::select('SELECT datname FROM pg_database')
         );
 
         if (array_search($database_name, $databases) !== false) {
-            \DB::statement('DROP DATABASE '.$database_name.';');
+            DB::statement('DROP DATABASE '.$database_name.';');
             return;
         }
 
-        throw new \InvalidArgumentException(
+        throw new InvalidArgumentException(
             'Database does not exist: '.
             $database_name
         );
@@ -124,25 +125,25 @@ class DropDatabaseCommand extends Command
      * Drop a MySQL database from a given database name.
      *
      * @param string $database_name
-     * @return mixed
-     * @throws InvalidArgumentException If database does not exists
+     * @return void
+     * @throws \InvalidArgumentException If database does not exists
      */
-    protected function dropMySql($database_name)
+    protected function dropMySql(string $database_name): void
     {
         // Get databases names
         $databases = array_map(
             static function ($database) {
                 return $database->Database;
             },
-            \DB::select('SHOW DATABASES;')
+            DB::select('SHOW DATABASES;')
         );
 
         if (array_search($database_name, $databases) !== false) {
-            \DB::statement('DROP DATABASE '.$database_name.';');
+            DB::statement('DROP DATABASE '.$database_name.';');
             return;
         }
 
-        throw new \InvalidArgumentException(
+        throw new InvalidArgumentException(
             'Database does not exist: '.
             $database_name
         );

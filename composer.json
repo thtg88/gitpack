@@ -28,7 +28,9 @@
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6.9",
         "phpunit/phpunit": "^9.3.3",
-        "tightenco/tlint": "^5.0"
+        "psalm/plugin-laravel": "^1.4",
+        "tightenco/tlint": "^5.0",
+        "vimeo/psalm": "^4.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -76,7 +78,10 @@
         ],
         "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --dry-run",
         "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no",
-        "stan": "vendor/bin/phpstan analyse --memory-limit=512M",
+        "stan": [
+            "vendor/bin/phpstan analyse --memory-limit=512M",
+            "vendor/bin/psalm --no-cache"
+        ],
         "test": "vendor/bin/phpunit"
     }
 }

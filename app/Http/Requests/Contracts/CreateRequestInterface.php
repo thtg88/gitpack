@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Contracts;
 
-interface PaginateRequestInterface
+interface CreateRequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -10,6 +10,7 @@ use App\Http\Requests\Contracts\StoreRequestInterface;
 use App\Http\Requests\Contracts\UpdateRequestInterface;
 use App\Repositories\Repository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
@@ -29,9 +30,9 @@ class ResourceService implements ResourceServiceInterface
      *
      * @param \App\Http\Requests\Contracts\DestroyRequestInterface $request
      * @param int $id The id of the model.
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function destroy(DestroyRequestInterface $request, $id)
+    public function destroy(DestroyRequestInterface $request, $id): ?Model
     {
         return $this->repository->destroy($id);
     }
@@ -76,68 +77,11 @@ class ResourceService implements ResourceServiceInterface
      * Return all the model instances.
      *
      * @param \App\Http\Requests\Contracts\IndexRequestInterface $request
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index(IndexRequestInterface $request): LengthAwarePaginator
+    public function index(IndexRequestInterface $request): Collection
     {
-        // Get input
-        $input = $request->only([
-            'page',
-            'page_size',
-            'recovery',
-            'sort_direction',
-            'sort_name',
-        ]);
-
-        $wheres = [];
-
-        $wheres = array_merge($wheres, $this->getFilterValues($request));
-
-        // Page falls back to 1
-        if (! array_key_exists('page', $input) || $input['page'] === null) {
-            $input['page'] = 1;
-        }
-
-        // Page size fall back to configs
-        if (
-            ! array_key_exists('page_size', $input) ||
-            $input['page_size'] === null
-        ) {
-            $input['page_size'] = config('app.pagination.page_size');
-        }
-
-        $input['q'] = $this->getSearchValue($request);
-
-        if (array_key_exists('recovery', $input) && $input['recovery'] == 1) {
-            // Set the repository to also fetch trashed models
-            $this->repository = $this->repository->withTrashed();
-
-            $wheres[] = [
-                'field' => 'deleted_at',
-                'operator' => '<>',
-                'value' => null,
-            ];
-        }
-
-        // Sort name fall back
-        if (empty($input['sort_name'])) {
-            $input['sort_name'] = null;
-        }
-
-        // Sort direction fall back
-        if (empty($input['sort_direction'])) {
-            $input['sort_direction'] = null;
-        }
-
-        // Get paginated resources
-        return $this->repository->paginate(
-            $input['page_size'],
-            $input['page'],
-            $input['q'],
-            $input['sort_name'],
-            $input['sort_direction'],
-            $wheres
-        );
+        return $this->repository->all();
     }
 
     /**
@@ -145,9 +89,9 @@ class ResourceService implements ResourceServiceInterface
      *
      * @param \App\Http\Requests\Contracts\RestoreRequestInterface $request
      * @param int $id The id of the model
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function restore(RestoreRequestInterface $request, $id)
+    public function restore(RestoreRequestInterface $request, $id): ?Model
     {
         return $this->repository->restore($id);
     }
@@ -170,9 +114,9 @@ class ResourceService implements ResourceServiceInterface
      * Returns a model from a given id.
      *
      * @param int $id The id of the instance.
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function show($id)
+    public function show($id): ?Model
     {
         return $this->repository->find($id);
     }
@@ -183,7 +127,7 @@ class ResourceService implements ResourceServiceInterface
      * @param \App\Http\Requests\Contracts\StoreRequestInterface $request
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function store(StoreRequestInterface $request)
+    public function store(StoreRequestInterface $request): Model
     {
         // Get request data
         $data = $request->validated();
@@ -196,9 +140,9 @@ class ResourceService implements ResourceServiceInterface
      *
      * @param \App\Http\Requests\Contracts\UpdateRequestInterface $request
      * @param int $id The id of the model
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function update(UpdateRequestInterface $request, $id)
+    public function update(UpdateRequestInterface $request, $id): ?Model
     {
         // Get request data
         $data = $request->validated();

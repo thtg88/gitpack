@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\ValidationRuleHelper;
 use App\Http\Requests\Contracts\StoreRequestInterface;
 
 class StoreRequest extends Request implements StoreRequestInterface
@@ -12,7 +11,7 @@ class StoreRequest extends Request implements StoreRequestInterface
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return $this->user()->can('create', $this->model_classname);
     }
@@ -22,10 +21,8 @@ class StoreRequest extends Request implements StoreRequestInterface
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
-        return Container::getInstance()
-            ->make(ValidationRuleHelper::class)
-            ->getRules($this->model_classname);
+        return [];
     }
 }

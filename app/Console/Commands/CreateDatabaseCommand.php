@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use PDO;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 
 class CreateDatabaseCommand extends Command
@@ -35,10 +37,10 @@ class CreateDatabaseCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
-     * @throws RuntimeException If database connection not "mysql" nor "pgsql".
+     * @return void
+     * @throws \RuntimeException If database connection not "mysql" nor "pgsql".
      */
-    public function handle()
+    public function handle(): void
     {
         // Get default database connection from config
         $default_database_connection = config('database.default');
@@ -79,7 +81,7 @@ class CreateDatabaseCommand extends Command
         }
 
         if (! isset($created)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'Database type not supported: '.
                 $default_database_connection
             );
@@ -115,11 +117,11 @@ class CreateDatabaseCommand extends Command
             static function ($database) {
                 return $database->datname;
             },
-            \DB::select('SELECT datname FROM pg_database')
+            DB::select('SELECT datname FROM pg_database')
         );
 
         if (array_search($database_name, $databases) === false) {
-            \DB::statement('CREATE DATABASE '.$database_name.';');
+            DB::statement('CREATE DATABASE '.$database_name.';');
             return true;
         }
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Contracts\UpdateRequestInterface;
+use App\Http\Requests\Contracts\EditRequestInterface;
 
-class UpdateRequest extends Request implements UpdateRequestInterface
+class EditRequest extends Request implements EditRequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,15 +18,5 @@ class UpdateRequest extends Request implements UpdateRequestInterface
         }
 
         return $this->user()->can('update', $this->resource);
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules(): array
-    {
-        return [];
     }
 }

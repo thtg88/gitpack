@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Contracts\DestroyRequestInterface;
+use App\Http\Requests\Contracts\StoreRequestInterface;
+use App\Http\Requests\Contracts\UpdateRequestInterface;
+use App\Http\Requests\PaginateRequest;
 use Illuminate\Container\Container;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Str;
 
 class Controller extends BaseController
 {
@@ -20,23 +25,9 @@ class Controller extends BaseController
     protected $bindings = [];
 
     /**
-     * The csv header row callback implementation.
-     *
-     * @var \Closure
-     */
-    protected $csv_header_row_callback;
-
-    /**
-     * The csv row callback implementation.
-     *
-     * @var \Closure
-     */
-    protected $csv_row_callback;
-
-    /**
      * The service implementation.
      *
-     * @var \App\Http\Requests\Contracts\ResourceServiceInterface
+     * @var \App\Services\ResourceServiceInterface
      */
     protected $service;
 
@@ -55,7 +46,7 @@ class Controller extends BaseController
      *
      * @param \App\Http\Requests\Contracts\DestroyRequestInterface $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(DestroyRequestInterface $request, $id)
     {
@@ -67,10 +58,25 @@ class Controller extends BaseController
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @param \App\Http\Requests\PaginateRequest $request
+     * @return \Illuminate\View\View
+     */
+    public function index(PaginateRequest $request)
+    {
+        // Get index resources
+        $resources = $this->service->paginate($request);
+
+        return view($this->getViewBaseFolder().'.index.main')
+            ->with('resources', $resources);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\Contracts\StoreRequestInterface $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreRequestInterface $request)
     {
@@ -86,7 +92,7 @@ class Controller extends BaseController
      *
      * @param \App\Http\Requests\Contracts\UpdateRequestInterface $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateRequestInterface $request, $id)
     {
@@ -98,45 +104,11 @@ class Controller extends BaseController
     }
 
     /**
-     * Download a listing of all the resources in CSV format.
-     *
-     * @param \App\Http\Requests\DownloadCsvRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function downloadCsv(DownloadCsvRequest $request)
-    {
-        // Create download csv helper
-        $helper = new DownloadCsvHelper(
-            $this->service,
-            $this->csv_header_row_callback,
-            $this->csv_row_callback
-        );
-
-        // Get callback
-        $callback = $helper->getCallback($request);
-
-        // Create file name from table name, and timestamp
-        $filename = $this->service->getName().'-'.now()->format('Y-m-d\TH_i_s').'.csv';
-
-        $headers = [
-            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Content-type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename='.$filename,
-            'Expires' => '0',
-            'Pragma' => 'public',
-        ];
-
-        // return $callback();
-
-        return response()->stream($callback, 200, $headers);
-    }
-
-    /**
      * Return the service name.
      *
      * @return string
      */
-    protected function getServiceName()
+    protected function getServiceName(): string
     {
         return $this->service->getName();
     }
@@ -146,7 +118,7 @@ class Controller extends BaseController
      *
      * @return string
      */
-    protected function getBaseRoute()
+    protected function getBaseRoute(): string
     {
         return Str::slug($this->getServiceName());
     }
@@ -156,7 +128,7 @@ class Controller extends BaseController
      *
      * @return string
      */
-    protected function getViewBaseFolder()
+    protected function getViewBaseFolder(): string
     {
         return Str::slug($this->getServiceName());
     }
@@ -166,7 +138,7 @@ class Controller extends BaseController
      *
      * @return void
      */
-    protected function addBindings()
+    protected function addBindings(): void
     {
         $app = Container::getInstance();
 
@@ -180,7 +152,7 @@ class Controller extends BaseController
      *
      * @return array
      */
-    protected function getBindings()
+    protected function getBindings(): array
     {
         return $this->bindings;
     }

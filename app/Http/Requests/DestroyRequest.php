@@ -11,7 +11,7 @@ class DestroyRequest extends Request implements DestroyRequestInterface
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         if ($this->authorizeResourceExist() === false) {
             return false;

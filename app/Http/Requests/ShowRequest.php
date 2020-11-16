@@ -11,7 +11,7 @@ class ShowRequest extends Request implements ShowRequestInterface
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         if (
             $this->get('recovery') == 1 &&

@@ -14,7 +14,7 @@ class IndexRequest extends Request implements IndexRequestInterface
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return $this->user()->can('viewAny', $this->model_classname);
     }

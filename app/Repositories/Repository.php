@@ -141,9 +141,10 @@ class Repository implements RepositoryInterface
     /**
      * Exclude a scope for the model in the current repository
      *
+     * @param string $scope_classname
      * @return self
      */
-    public function withGlobalScope($scope_classname)
+    public function withGlobalScope(string $scope_classname): self
     {
         $this->model = $this->model->addGlobalScope($scope_classname);
 
@@ -153,9 +154,10 @@ class Repository implements RepositoryInterface
     /**
      * Exclude a scope for the model in the current repository
      *
+     * @param string $scope_classname
      * @return self
      */
-    public function withoutGlobalScope($scope_classname)
+    public function withoutGlobalScope(string $scope_classname): self
     {
         $this->model = $this->model->withoutGlobalScope($scope_classname);
 
@@ -167,7 +169,7 @@ class Repository implements RepositoryInterface
      *
      * @return self
      */
-    public function withTrashed()
+    public function withTrashed(): self
     {
         $this->with_trashed = true;
 
@@ -179,7 +181,7 @@ class Repository implements RepositoryInterface
      *
      * @return self
      */
-    public function withoutTrashed()
+    public function withoutTrashed(): self
     {
         $this->with_trashed = false;
 

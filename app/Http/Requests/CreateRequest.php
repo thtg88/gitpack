@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
-class UserIndexRequest extends Request
+use App\Http\Requests\Contracts\CreateRequestInterface;
+
+class CreateRequest extends Request implements CreateRequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -11,6 +13,6 @@ class UserIndexRequest extends Request
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('create', $this->model_classname);
     }
 }
