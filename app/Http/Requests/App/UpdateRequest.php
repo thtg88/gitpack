@@ -25,7 +25,7 @@ class UpdateRequest extends BaseUpdateRequest
      */
     public function rules(): array
     {
-        $all_rules = [
+        $rules = [
             //
         ];
 
