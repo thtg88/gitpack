@@ -28,7 +28,8 @@
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6.9",
         "phpunit/phpunit": "^9.3.3",
-        "tightenco/tlint": "^5.0"
+        "tightenco/tlint": "^5.0",
+        "vimeo/psalm": "^4.1"
     },
     "config": {
         "optimize-autoloader": true,
