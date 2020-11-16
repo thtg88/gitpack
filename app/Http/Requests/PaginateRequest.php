@@ -11,7 +11,7 @@ class PaginateRequest extends Request implements PaginateRequestInterface
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return $this->user()->can('viewAny', $this->model_classname);
     }
@@ -21,7 +21,7 @@ class PaginateRequest extends Request implements PaginateRequestInterface
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'filters' => 'nullable|array',

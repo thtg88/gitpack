@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\ValidationRuleHelper;
 use App\Http\Requests\Contracts\UpdateRequestInterface;
 
 class UpdateRequest extends Request implements UpdateRequestInterface
@@ -12,7 +11,7 @@ class UpdateRequest extends Request implements UpdateRequestInterface
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         if ($this->authorizeResourceExist() === false) {
             return false;
@@ -26,10 +25,8 @@ class UpdateRequest extends Request implements UpdateRequestInterface
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
-        return Container::getInstance()
-            ->make(ValidationRuleHelper::class)
-            ->getRules(get_class($this->resource));
+        return [];
     }
 }
