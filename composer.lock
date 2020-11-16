@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84bad91e2d459af9b98b75763c884c30",
+    "content-hash": "7c9bc33cd4902b66c3720b1a1fbb13c8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4567,6 +4567,67 @@
                 }
             ],
             "time": "2020-10-27T10:11:13+00:00"
+        },
+        {
+            "name": "thtg88/laravel-scaffold-commands",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thtg88/laravel-scaffold-commands.git",
+                "reference": "1e82680496ed3e3c6a74592cfe32c5f47ec55ebb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thtg88/laravel-scaffold-commands/zipball/1e82680496ed3e3c6a74592cfe32c5f47ec55ebb",
+                "reference": "1e82680496ed3e3c6a74592cfe32c5f47ec55ebb",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^7.0.0 || ^8.0.0",
+                "illuminate/container": "^7.0.0 || ^8.0.0",
+                "illuminate/support": "^7.0.0 || ^8.0.0"
+            },
+            "require-dev": {
+                "brainmaestro/composer-git-hooks": "^2.8",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "orchestra/testbench": "^5.3",
+                "phpstan/phpstan": "^0.12.14",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "hooks": {
+                    "pre-commit": [
+                        "vendor/bin/php-cs-fixer fix --using-cache=no --diff --dry-run"
+                    ]
+                },
+                "laravel": {
+                    "providers": [
+                        "Thtg88\\LaravelScaffoldCommands\\LaravelScaffoldCommandsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Thtg88\\LaravelScaffoldCommands\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Marassi",
+                    "email": "admin@marco-marassi.com"
+                }
+            ],
+            "description": "Handy Laravel Scaffold Artisan Commands.",
+            "support": {
+                "issues": "https://github.com/thtg88/laravel-scaffold-commands/issues",
+                "source": "https://github.com/thtg88/laravel-scaffold-commands/tree/v0.3.0"
+            },
+            "time": "2020-11-16T13:32:47+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
