@@ -102,7 +102,7 @@ class Controller extends BaseController
      *
      * @return string
      */
-    protected function getBaseRoute()
+    protected function getBaseRoute(): string
     {
         return Str::slug($this->getServiceName());
     }
@@ -112,7 +112,7 @@ class Controller extends BaseController
      *
      * @return string
      */
-    protected function getViewBaseFolder()
+    protected function getViewBaseFolder(): string
     {
         return Str::slug($this->getServiceName());
     }
@@ -122,7 +122,7 @@ class Controller extends BaseController
      *
      * @return void
      */
-    protected function addBindings()
+    protected function addBindings(): void
     {
         $app = Container::getInstance();
 
@@ -136,7 +136,7 @@ class Controller extends BaseController
      *
      * @return array
      */
-    protected function getBindings()
+    protected function getBindings(): array
     {
         return $this->bindings;
     }
