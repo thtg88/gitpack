@@ -26,7 +26,7 @@ class Controller extends BaseController
     /**
      * The service implementation.
      *
-     * @var \App\Http\Requests\Contracts\ResourceServiceInterface
+     * @var \App\Services\ResourceServiceInterface
      */
     protected $service;
 

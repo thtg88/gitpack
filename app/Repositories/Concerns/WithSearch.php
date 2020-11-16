@@ -3,6 +3,7 @@
 namespace App\Repositories\Concerns;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 trait WithSearch
 {
@@ -96,7 +97,7 @@ trait WithSearch
         // Perform search on model's column
         if ($column_dot_count === 0) {
             return $builder->orWhere(
-                \DB::raw('LOWER('.$column.')'),
+                DB::raw('LOWER('.$column.')'),
                 'LIKE',
                 '%'.$q.'%'
             );
@@ -112,7 +113,7 @@ trait WithSearch
             $relationship,
             static function ($relationship_query) use ($q, $relationship_column) {
                 $relationship_query->where(
-                    \DB::raw('LOWER('.$relationship_column.')'),
+                    DB::raw('LOWER('.$relationship_column.')'),
                     'LIKE',
                     '%'.$q.'%'
                 );
