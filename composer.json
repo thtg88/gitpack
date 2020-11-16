@@ -78,7 +78,10 @@
         ],
         "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --dry-run",
         "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no",
-        "stan": "vendor/bin/phpstan analyse --memory-limit=512M",
+        "stan": [
+            "vendor/bin/phpstan analyse --memory-limit=512M",
+            "vendor/bin/psalm"
+        ],
         "test": "vendor/bin/phpunit"
     }
 }
