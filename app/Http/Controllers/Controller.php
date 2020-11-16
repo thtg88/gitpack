@@ -45,7 +45,7 @@ class Controller extends BaseController
      *
      * @param \App\Http\Requests\Contracts\DestroyRequestInterface $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(DestroyRequestInterface $request, $id)
     {
@@ -60,7 +60,7 @@ class Controller extends BaseController
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\Contracts\StoreRequestInterface $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreRequestInterface $request)
     {
@@ -76,7 +76,7 @@ class Controller extends BaseController
      *
      * @param \App\Http\Requests\Contracts\UpdateRequestInterface $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateRequestInterface $request, $id)
     {

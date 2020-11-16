@@ -10,6 +10,7 @@ use App\Http\Requests\Contracts\StoreRequestInterface;
 use App\Http\Requests\Contracts\UpdateRequestInterface;
 use App\Repositories\Repository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
@@ -29,9 +30,9 @@ class ResourceService implements ResourceServiceInterface
      *
      * @param \App\Http\Requests\Contracts\DestroyRequestInterface $request
      * @param int $id The id of the model.
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function destroy(DestroyRequestInterface $request, $id)
+    public function destroy(DestroyRequestInterface $request, $id): ?Model
     {
         return $this->repository->destroy($id);
     }
@@ -145,9 +146,9 @@ class ResourceService implements ResourceServiceInterface
      *
      * @param \App\Http\Requests\Contracts\RestoreRequestInterface $request
      * @param int $id The id of the model
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function restore(RestoreRequestInterface $request, $id)
+    public function restore(RestoreRequestInterface $request, $id): ?Model
     {
         return $this->repository->restore($id);
     }
@@ -170,9 +171,9 @@ class ResourceService implements ResourceServiceInterface
      * Returns a model from a given id.
      *
      * @param int $id The id of the instance.
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function show($id)
+    public function show($id): ?Model
     {
         return $this->repository->find($id);
     }
@@ -183,7 +184,7 @@ class ResourceService implements ResourceServiceInterface
      * @param \App\Http\Requests\Contracts\StoreRequestInterface $request
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function store(StoreRequestInterface $request)
+    public function store(StoreRequestInterface $request): Model
     {
         // Get request data
         $data = $request->validated();
@@ -196,9 +197,9 @@ class ResourceService implements ResourceServiceInterface
      *
      * @param \App\Http\Requests\Contracts\UpdateRequestInterface $request
      * @param int $id The id of the model
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
-    public function update(UpdateRequestInterface $request, $id)
+    public function update(UpdateRequestInterface $request, $id): ?Model
     {
         // Get request data
         $data = $request->validated();

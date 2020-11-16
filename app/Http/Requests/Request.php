@@ -119,7 +119,7 @@ class Request extends FormRequest
     protected function findResource($with_trashed = false)
     {
         // Get id from route
-        $resource_id = $this->route('id');
+        $resource_id = (int) $this->route('id');
 
         if ($with_trashed === true) {
             $this->resource = $this->repository->withTrashed()

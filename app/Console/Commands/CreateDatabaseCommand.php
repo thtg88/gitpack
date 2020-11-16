@@ -37,10 +37,10 @@ class CreateDatabaseCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      * @throws \RuntimeException If database connection not "mysql" nor "pgsql".
      */
-    public function handle()
+    public function handle(): void
     {
         // Get default database connection from config
         $default_database_connection = config('database.default');
