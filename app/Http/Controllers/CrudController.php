@@ -47,7 +47,7 @@ abstract class CrudController extends Controller
         // Destroy resource
         $resource = $this->service->destroy($request, $id);
 
-        return redirect($this->getBaseRoute())
+        return redirect(route($this->getBaseRoute().'.index'))
             ->with('resource_destroy_success', true)
             ->with('resource_name', $this->service->getResourceName());
     }
