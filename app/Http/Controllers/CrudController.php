@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Contracts\CreateRequestInterface;
 use App\Http\Requests\Contracts\DestroyRequestInterface;
 use App\Http\Requests\Contracts\EditRequestInterface;
 use App\Http\Requests\Contracts\PaginateRequestInterface;
@@ -34,6 +35,17 @@ abstract class CrudController extends Controller
     public function __construct()
     {
         $this->addBindings();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param \App\Http\Requests\Contracts\CreateRequestInterface $request
+     * @return \Illuminate\View\View
+     */
+    public function create(CreateRequestInterface $request)
+    {
+        return view($this->getViewBaseFolder().'.create.main');
     }
 
     /**
