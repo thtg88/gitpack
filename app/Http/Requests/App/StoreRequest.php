@@ -34,7 +34,9 @@ class StoreRequest extends BaseStoreRequest
                 'required',
                 'string',
                 'max:255',
-                // TODO add unique validation rule
+                'regex:/^[a-zA-Z0-9-_]+$/i',
+                // TODO add unique case-insensitive validation rule
+                'unique:'.$this->repository->getModelTable(),
             ],
         ];
     }

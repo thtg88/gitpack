@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\App\CreateRequest;
 use App\Http\Requests\App\DestroyRequest;
+use App\Http\Requests\App\EditRequest;
 use App\Http\Requests\App\PaginateRequest;
 use App\Http\Requests\App\ShowRequest;
 use App\Http\Requests\App\StoreRequest;
 use App\Http\Requests\App\UpdateRequest;
+use App\Http\Requests\Contracts\CreateRequestInterface;
 use App\Http\Requests\Contracts\DestroyRequestInterface;
+use App\Http\Requests\Contracts\EditRequestInterface;
 use App\Http\Requests\Contracts\PaginateRequestInterface;
 use App\Http\Requests\Contracts\ShowRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
@@ -22,7 +26,9 @@ class AppController extends CrudController
      * @var string[]|callable[]
      */
     protected $bindings = [
+        CreateRequestInterface::class => CreateRequest::class,
         DestroyRequestInterface::class => DestroyRequest::class,
+        EditRequestInterface::class => EditRequest::class,
         PaginateRequestInterface::class => PaginateRequest::class,
         ShowRequestInterface::class => ShowRequest::class,
         StoreRequestInterface::class => StoreRequest::class,

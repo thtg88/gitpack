@@ -26,7 +26,14 @@ class UpdateRequest extends BaseUpdateRequest
     public function rules(): array
     {
         $rules = [
-            //
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[a-zA-Z0-9-_]+$/i',
+                // TODO add unique case-insensitive validation rule
+                'unique:'.$this->repository->getModelTable(),
+            ],
         ];
 
         return $this->filterProvidedInputRules($rules);

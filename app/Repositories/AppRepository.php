@@ -6,18 +6,18 @@ use App\Models\App;
 
 class AppRepository extends Repository
 {
-    protected static $model_name = 'id';
+    protected static $model_name = 'name';
 
     protected static $order_by_columns = [
-        'id' => 'asc',
+        'name' => 'asc',
     ];
 
     protected static $search_columns = [
-        //
+        'name',
     ];
 
     protected static $filter_columns = [
-        //
+        'user_id',
     ];
 
     /**
