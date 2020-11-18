@@ -6,9 +6,6 @@
             </a>
         </x-slot>
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
         <form method="POST" action="{{ route('auth.password.update') }}">
             @csrf
 
@@ -27,8 +24,13 @@
                 <label for="password" class="block font-medium text-sm text-gray-700">
                     {{ __('Password') }}
                 </label>
-
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
+                <x-input
+                    id="password"
+                    class="block mt-1 w-full"
+                    type="password"
+                    name="password"
+                    required
+                />
             </div>
 
             <!-- Confirm Password -->
@@ -37,9 +39,13 @@
                     {{ __('Confirm Password') }}
                 </label>
 
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required />
+                <x-input
+                    id="password_confirmation"
+                    class="block mt-1 w-full"
+                    type="password"
+                    name="password_confirmation"
+                    required
+                />
             </div>
 
             <div class="flex items-center justify-end mt-4">
