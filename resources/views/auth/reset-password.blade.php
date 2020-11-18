@@ -13,11 +13,21 @@
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
             <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" required autofocus />
-            </div>
+            @if (request('email'))
+                <input type="hidden" name="email" value="{{ request('email') }}">
+            @else
+                <div>
+                    <x-label for="email" :value="__('Email')" />
+                    <x-input
+                        id="email"
+                        class="block mt-1 w-full"
+                        type="email"
+                        name="email"
+                        required
+                        autofocus
+                    />
+                </div>
+            @endif
 
             <!-- Password -->
             <div class="mt-4">
