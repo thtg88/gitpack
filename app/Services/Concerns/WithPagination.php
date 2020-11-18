@@ -115,13 +115,12 @@ trait WithPagination
     /**
      * Return the default filter values.
      *
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
      * @return array
      */
-    public function getDefaultFilterValues(): array
+    public function getDefaultFilterValues(PaginateRequestInterface $request): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     /**
@@ -132,7 +131,7 @@ trait WithPagination
      */
     public function getFilterValues(PaginateRequestInterface $request): array
     {
-        $filters = $this->getDefaultFilterValues();
+        $filters = $this->getDefaultFilterValues($request);
 
         if (! is_array($request->filters)) {
             return $filters;
