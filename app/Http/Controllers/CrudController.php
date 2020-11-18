@@ -78,7 +78,8 @@ abstract class CrudController extends Controller
         // Store resource
         $resource = $this->service->store($request);
 
-        return back()->with('resource_store_success', true)
+        return redirect(route($this->getBaseRoute().'.index'))
+            ->with('resource_store_success', true)
             ->with('resource_name', $this->service->getResourceName());
     }
 
