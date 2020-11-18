@@ -4,4 +4,4 @@ var createConfirm = require('./components/confirm').createConfirm;
 
 $$("[data-confirm]").forEach(createConfirm);
 
-// require('alpinejs');
+require('alpinejs');
