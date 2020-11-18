@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Contracts\DestroyRequestInterface;
+use App\Http\Requests\Contracts\PaginateRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
 use App\Http\Requests\Contracts\UpdateRequestInterface;
-use App\Http\Requests\PaginateRequest;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 
@@ -55,10 +55,10 @@ abstract class CrudController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \App\Http\Requests\PaginateRequest $request
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
      * @return \Illuminate\View\View
      */
-    public function index(PaginateRequest $request)
+    public function index(PaginateRequestInterface $request)
     {
         // Get index resources
         $resources = $this->service->paginate($request);
