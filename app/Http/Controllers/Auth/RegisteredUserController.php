@@ -43,11 +43,9 @@ class RegisteredUserController extends Controller
             'password' => 'required|string|confirmed|min:8',
         ]);
 
-        Auth::login($user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]));
+        $user = User::create($request->validated());
+
+        Auth::login($user);
 
         event(new Registered($user));
 
