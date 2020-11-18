@@ -14,7 +14,7 @@ use App\Http\Requests\Contracts\StoreRequestInterface;
 use App\Http\Requests\Contracts\UpdateRequestInterface;
 use App\Services\AppService;
 
-class AppController extends Controller
+class AppController extends CrudController
 {
     /**
      * The controller-specific bindings.
