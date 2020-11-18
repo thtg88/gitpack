@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Contracts\DestroyRequestInterface;
+use App\Http\Requests\Contracts\EditRequestInterface;
 use App\Http\Requests\Contracts\PaginateRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
 use App\Http\Requests\Contracts\UpdateRequestInterface;
@@ -50,6 +51,21 @@ abstract class CrudController extends Controller
         return redirect(route($this->getBaseRoute().'.index'))
             ->with('resource_destroy_success', true)
             ->with('resource_name', $this->service->getResourceName());
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\Http\Requests\Contracts\EditRequestInterface $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(EditRequestInterface $request, $id)
+    {
+        $resource = $this->service->show($id);
+
+        return view($this->getViewBaseFolder().'.edit.main')
+            ->with('resource', $resource);
     }
 
     /**
