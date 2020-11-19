@@ -1,5 +1,8 @@
 {
     "private": true,
+    "engines": {
+        "node": "14.15.x"
+    },
     "scripts": {
         "build": "npm run prod",
         "dev": "npm run development",
