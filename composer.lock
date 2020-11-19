@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bbef531e847f2b4cec018518ed4df033",
+    "content-hash": "4ef522d09a97676ffb7c6dcbeaf92311",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2402,6 +2402,65 @@
                 }
             ],
             "time": "2020-08-18T17:17:46+00:00"
+        },
+        {
+            "name": "spatie/ssh",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/ssh.git",
+                "reference": "9bfb2d06f4d020d957bb360350dfe224de6fd78d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/ssh/zipball/9bfb2d06f4d020d957bb360350dfe224de6fd78d",
+                "reference": "9bfb2d06f4d020d957bb360350dfe224de6fd78d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4",
+                "symfony/process": "^4.3 || ^5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.2",
+                "spatie/phpunit-snapshot-assertions": "^4.0",
+                "symfony/var-dumper": "^4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Ssh\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A lightweight package to execute commands over an SSH connection",
+            "homepage": "https://github.com/spatie/ssh",
+            "keywords": [
+                "spatie",
+                "ssh"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/ssh/issues",
+                "source": "https://github.com/spatie/ssh/tree/master"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-04-10T14:43:27+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
