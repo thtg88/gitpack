@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], static function () {
     Route::view('/', 'dashboard')->name('dashboard');
+
+    Route::group(['as' => 'apps.', 'prefix' => 'apps'], static function () {
+        Route::get('create', [AppController::class, 'create'])->name('create');
+        Route::get('{id}', [AppController::class, 'edit'])->name('edit');
+        Route::put('{id}', [AppController::class, 'update'])->name('update');
+        Route::get('/', [AppController::class, 'index'])->name('index');
+        Route::post('/', [AppController::class, 'store'])->name('store');
+    });
 });

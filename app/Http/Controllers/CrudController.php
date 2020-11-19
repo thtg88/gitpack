@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Contracts\CreateRequestInterface;
 use App\Http\Requests\Contracts\DestroyRequestInterface;
+use App\Http\Requests\Contracts\EditRequestInterface;
+use App\Http\Requests\Contracts\PaginateRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
 use App\Http\Requests\Contracts\UpdateRequestInterface;
-use App\Http\Requests\PaginateRequest;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 
@@ -36,6 +38,17 @@ abstract class CrudController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @param \App\Http\Requests\Contracts\CreateRequestInterface $request
+     * @return \Illuminate\View\View
+     */
+    public function create(CreateRequestInterface $request)
+    {
+        return view($this->getViewBaseFolder().'.create.main');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param \App\Http\Requests\Contracts\DestroyRequestInterface $request
@@ -47,18 +60,33 @@ abstract class CrudController extends Controller
         // Destroy resource
         $resource = $this->service->destroy($request, $id);
 
-        return redirect($this->getBaseRoute())
+        return redirect(route($this->getBaseRoute().'.index'))
             ->with('resource_destroy_success', true)
             ->with('resource_name', $this->service->getResourceName());
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\Http\Requests\Contracts\EditRequestInterface $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(EditRequestInterface $request, $id)
+    {
+        $resource = $this->service->show($id);
+
+        return view($this->getViewBaseFolder().'.edit.main')
+            ->with('resource', $resource);
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @param \App\Http\Requests\PaginateRequest $request
+     * @param \App\Http\Requests\Contracts\PaginateRequestInterface $request
      * @return \Illuminate\View\View
      */
-    public function index(PaginateRequest $request)
+    public function index(PaginateRequestInterface $request)
     {
         // Get index resources
         $resources = $this->service->paginate($request);
@@ -78,7 +106,8 @@ abstract class CrudController extends Controller
         // Store resource
         $resource = $this->service->store($request);
 
-        return back()->with('resource_store_success', true)
+        return redirect(route($this->getBaseRoute().'.index'))
+            ->with('resource_store_success', true)
             ->with('resource_name', $this->service->getResourceName());
     }
 

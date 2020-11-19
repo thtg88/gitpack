@@ -188,30 +188,6 @@ trait WithPagination
             );
         }
 
-        if (
-            in_array(
-                $filter['name'],
-                $this->getModel()->getWith()
-            )
-        ) {
-            if (
-                isset($filter['operator']) &&
-                $filter['operator'] === 'in'
-            ) {
-                return $builder->whereHas(
-                    $filter['name'],
-                    static function ($query) use ($filter) {
-                        $query->where(
-                            $filter['name'].'.id',
-                            $filter['value']
-                        )->whereNull($filter['name'].'.deleted_at');
-                    }
-                );
-            }
-
-            return $builder;
-        }
-
         if ($filter['value'] === null) {
             if (
                 ! array_key_exists('operator', $filter) ||
