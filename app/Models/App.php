@@ -44,6 +44,11 @@ class App extends Model
         return 'https://example.com/'.$this->attributes['name'].'.git';
     }
 
+    public function getUserName(): string
+    {
+        return $this->user->name;
+    }
+
     // RELATIONSHIPS
 
     public function user(): BelongsTo
