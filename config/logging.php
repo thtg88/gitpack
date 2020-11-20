@@ -37,7 +37,10 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => env('APP_ENV') === 'local' ||
+                env('APP_ENV') === 'testing' ?
+                    ['daily'] :
+                    ['daily', 'sentry', 'stderr'],
             'ignore_exceptions' => false,
         ],
 
@@ -52,6 +55,10 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
+        ],
+
+        'sentry' => [
+            'driver' => 'sentry',
         ],
 
         'slack' => [
