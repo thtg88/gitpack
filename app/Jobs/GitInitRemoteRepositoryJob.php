@@ -49,6 +49,7 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
 
         $process = Ssh::create(config('app.git_ssh.user'), config('app.git_ssh.host'))
             ->usePrivateKey($private_key->getTmpFilename())
+            ->disableStrictHostKeyChecking()
             ->execute([
                 'echo "'.$gitolite_conf->output().'" > '.
                     $gitolite_conf->getConfFilePath(),
