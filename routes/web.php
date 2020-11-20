@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AppController;
-use Exception;
 use Illuminate\Support\Facades\Route;
 
 /*
