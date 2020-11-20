@@ -16,6 +16,7 @@
         "laravel/breeze": "^0.0.5",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
+        "spatie/ssh": "^1.4",
         "thtg88/laravel-scaffold-commands": "^0.3.0"
     },
     "require-dev": {

@@ -245,4 +245,24 @@ return [
 
         'page_size' => (int) env('PAGINATION_PAGE_SIZE', 10),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Git SSH
+    |--------------------------------------------------------------------------
+    |
+    | These variable regulate configuration for the SSH access
+    | to the Git server.
+    |
+    */
+
+    'git_ssh' => [
+        'private_key' => env('GIT_SSH_PRIVATE_KEY'),
+
+        'public_key' => env('GIT_SSH_PUBLIC_KEY'),
+
+        'user' => env('GIT_SSH_USER'),
+
+        'host' => env('GIT_SSH_HOST'),
+    ],
 ];

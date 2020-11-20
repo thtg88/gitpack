@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Contracts\PaginateRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
+use App\Jobs\GitInitRemoteRepositoryJob;
 use App\Repositories\AppRepository;
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,6 +48,10 @@ class AppService extends ResourceService
 
         $data['user_id'] = $request->user()->id;
 
-        return $this->repository->create($data);
+        $resource = $this->repository->create($data);
+
+        dispatch(new GitInitRemoteRepositoryJob($resource));
+
+        return $resource;
     }
 }
