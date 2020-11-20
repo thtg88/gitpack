@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Http\Requests\Contracts\DestroyRequestInterface;
 use App\Http\Requests\Contracts\PaginateRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
 use App\Jobs\GitInitRemoteRepositoryJob;
+use App\Jobs\GitRemoveRemoteRepositoryJob;
 use App\Repositories\AppRepository;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,6 +36,24 @@ class AppService extends ResourceService
             'operator' => '=',
             'value' => $request->user()->id,
         ]];
+    }
+
+    /**
+     * Deletes a model instance from a given id.
+     *
+     * @param \App\Http\Requests\Contracts\DestroyRequestInterface $request
+     * @param int $id The id of the model.
+     * @return null|\Illuminate\Database\Eloquent\Model
+     */
+    public function destroy(DestroyRequestInterface $request, $id): ?Model
+    {
+        $resource = $this->repository->destroy($id);
+
+        if ($resource !== null) {
+            dispatch(new GitRemoveRemoteRepositoryJob($resource));
+        }
+
+        return $resource;
     }
 
     /**
