@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use Exception;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('test-sentry', static function () {
+    throw new Exception(
+        'Test Exception. '.
+        'If you see this in Sentry, it\'s all good, '.
+        'it means the integration is working.'
+    );
+});
 
 Route::group(['middleware' => 'auth'], static function () {
     Route::view('/', 'dashboard')->name('dashboard');
