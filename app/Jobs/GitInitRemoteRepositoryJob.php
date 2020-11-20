@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
+use App\GitoliteRepositoryConfiguration;
 use App\Models\App;
+use App\SshKey;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,6 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Ssh\Ssh;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class GitInitRemoteRepositoryJob implements ShouldQueue
 {
@@ -35,27 +38,38 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $private_key = config('app.git_ssh.private_key');
-        $public_key = config('app.git_ssh.public_key');
+        $private_key = SshKey::createFromContents(
+            config('app.git_ssh.private_key')
+        )->saveAsTmpFile();
 
-        $private_key_file = tmpfile();
-        $private_key_file_name = stream_get_meta_data($private_key_file)['uri'];
-        $public_key_file = tmpfile();
-        $public_key_file_name = stream_get_meta_data($public_key_file)['uri'];
-        fwrite($private_key_file, $private_key);
-        fwrite($public_key_file, $public_key);
+        $gitolite_conf = new GitoliteRepositoryConfiguration(
+            $this->app->name,
+            $this->getUserName()
+        );
 
-        $process = Ssh::create('marco', '176.58.114.83')
-            ->disableStrictHostKeyChecking()
-            ->usePrivateKey($private_key_file_name)
-            ->execute('ls -la');
+        $process = Ssh::create(config('app.git_ssh.user'), config('app.git_ssh.host'))
+            ->usePrivateKey($private_key->getTmpFilename())
+            ->execute([
+                'echo "'.$gitolite_conf->output().'" > '.
+                    $gitolite_conf->getConfFilePath(),
+                'cd '.GitoliteRepositoryConfiguration::GITOLITE_ADMIN_PATH,
+                'git pull origin master',
+                'git add .',
+                'git commit -m "Added '.$gitolite_conf->getConfFilename().'"',
+                'git push origin master',
+            ]);
 
         $output = $process->getOutput();
-        $successful = $process->isSuccessful();
 
-        fclose($private_key_file);
-        fclose($public_key_file);
+        if (! $process->isSuccessful()) {
+            $private_key->flushTmpFile();
 
-        dd($output, $successful);
+            throw new ProcessFailedException($process);
+        }
+
+        $private_key = $private_key->flushTmpFile();
+
+        // TODO save output
+        // dd($output);
     }
 }
