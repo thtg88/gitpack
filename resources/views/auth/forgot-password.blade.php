@@ -27,6 +27,9 @@
                     required
                     autofocus
                 />
+                @error('email')
+                    <x-invalid-field>{{ $message }}</x-invalid-field>
+                @enderror
             </div>
 
             <div class="flex items-center justify-end mt-4">
