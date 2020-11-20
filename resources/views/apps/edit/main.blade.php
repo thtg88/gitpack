@@ -1,6 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-title>{{ __('Edit App') }}</x-title>
+        <div class="flex-1 min-w-0">
+            <div class="flex items-center">
+                <x-title>{{ __('Edit App') }}</x-title>
+            </div>
+        </div>
+        <div class="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
+            <form action="{{ route('apps.destroy', $resource) }}" method="post">
+                @csrf
+                @method('delete')
+                <x-buttons.danger-button type="submit" data-confirm="Are you sure you want to remove this app?">
+                    Remove app
+                </x-buttons.danger-button>
+            </form>
+        </div>
     </x-slot>
 
     <div class="py-12">

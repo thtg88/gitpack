@@ -20,6 +20,8 @@ Route::group(['middleware' => 'auth'], static function () {
     Route::group(['as' => 'apps.', 'prefix' => 'apps'], static function () {
         Route::get('create', [AppController::class, 'create'])->name('create');
         Route::get('{id}', [AppController::class, 'edit'])->name('edit');
+        Route::delete('{id}', [AppController::class, 'destroy'])
+            ->name('destroy');
         Route::put('{id}', [AppController::class, 'update'])->name('update');
         Route::get('/', [AppController::class, 'index'])->name('index');
         Route::post('/', [AppController::class, 'store'])->name('store');

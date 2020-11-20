@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
-            <x-button-link :href="route('apps.create')">Create app</x-button-link>
+            <x-buttons.primary-link :href="route('apps.create')">Create app</x-buttons.primary-link>
         </div>
     </x-slot>
 
