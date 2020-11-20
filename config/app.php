@@ -260,5 +260,9 @@ return [
         'private_key' => env('GIT_SSH_PRIVATE_KEY'),
 
         'public_key' => env('GIT_SSH_PUBLIC_KEY'),
+
+        'user' => env('GIT_SSH_USER'),
+
+        'host' => env('GIT_SSH_HOST'),
     ],
 ];
