@@ -14,14 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test-sentry', static function () {
-    throw new Exception(
-        'Test Exception. '.
-        'If you see this in Sentry, it\'s all good, '.
-        'it means the integration is working.'
-    );
-});
-
 Route::group(['middleware' => 'auth'], static function () {
     Route::view('/', 'dashboard')->name('dashboard');
 
