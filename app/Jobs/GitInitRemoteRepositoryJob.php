@@ -44,7 +44,7 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
 
         $gitolite_conf = new GitoliteRepositoryConfiguration(
             $this->app->name,
-            $this->getUserName()
+            $this->app->getUserName()
         );
 
         $process = Ssh::create(config('app.git_ssh.user'), config('app.git_ssh.host'))
