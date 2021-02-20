@@ -28,7 +28,6 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "nunomaduro/larastan": "^0.6.9",
         "phpunit/phpunit": "^9.3.3",
         "psalm/plugin-laravel": "^1.4",
         "tightenco/tlint": "^5.0",
@@ -80,10 +79,7 @@
         ],
         "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --dry-run",
         "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no",
-        "stan": [
-            "vendor/bin/phpstan analyse --memory-limit=512M",
-            "vendor/bin/psalm --no-cache"
-        ],
+        "stan": "vendor/bin/psalm --no-cache",
         "test": "vendor/bin/phpunit"
     }
 }
