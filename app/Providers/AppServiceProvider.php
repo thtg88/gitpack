@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\JournalEntryHelper;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Register journal entry helper singleton
+        $this->app->singleton('JournalEntryHelper', static function ($app) {
+            return $app->make(JournalEntryHelper::class);
+        });
     }
 
     /**
