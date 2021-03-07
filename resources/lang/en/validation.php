@@ -130,6 +130,8 @@ return [
     |
     */
 
+    'unique_case_insensitive' => 'The :attribute has already been taken.',
+
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

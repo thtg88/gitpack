@@ -4,7 +4,11 @@ namespace App\Providers;
 
 use App\Helpers\JournalEntryHelper;
 use App\Providers\TelescopeServiceProvider;
+use App\Rules\UniqueCaseInsensitive;
+use App\Validators\Validator;
+use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rule;
 use Laravel\Telescope\TelescopeServiceProvider as BaseTelescopeServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,6 +38,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Rule::macro(
+            'uniqueCaseInsensitive',
+            static function ($table, $column = 'NULL') {
+                return new UniqueCaseInsensitive($table, $column);
+            }
+        );
+
+        // Register custom validator
+        ValidatorFacade::resolver(
+            static function ($translator, $data, $rules, $messages) {
+                return new Validator($translator, $data, $rules, $messages);
+            }
+        );
     }
 }
