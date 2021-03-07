@@ -56,8 +56,6 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
                 'git push origin master',
             ]);
 
-        $output = $process->getOutput();
-
         if (! $process->isSuccessful()) {
             $private_key->flushTmpFile();
 
@@ -67,6 +65,7 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
         $private_key = $private_key->flushTmpFile();
 
         // TODO save output
+        // $output = $process->getOutput();
         // dd($output);
     }
 }
