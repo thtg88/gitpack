@@ -18,18 +18,14 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /** @var \App\Models\App */
-    protected $app;
-
     /**
      * Create a new job instance.
      *
      * @param \App\Models\App $app
      * @return void
      */
-    public function __construct(App $app)
+    public function __construct(private App $app)
     {
-        $this->app = $app;
     }
 
     /**
