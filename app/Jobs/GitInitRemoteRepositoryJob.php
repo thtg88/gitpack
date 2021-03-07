@@ -49,7 +49,7 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
             throw new ProcessFailedException($process);
         }
 
-        $private_key = $private_key->flushTmpFile();
+        $private_key->flushTmpFile();
 
         // TODO save output
         // $output = $process->getOutput();
