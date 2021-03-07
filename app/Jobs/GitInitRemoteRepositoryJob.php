@@ -53,9 +53,6 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
                 'git commit -m "Added '.$gitolite_conf->getConfFilename().'"',
                 'git push origin master',
             ]);
-
-        $output = $process->getOutput();
-
         if (! $process->isSuccessful()) {
             $private_key->flushTmpFile();
 
@@ -65,6 +62,7 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
         $private_key = $private_key->flushTmpFile();
 
         // TODO save output
+        // $output = $process->getOutput();
         // dd($output);
     }
 
