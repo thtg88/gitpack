@@ -44,15 +44,8 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
         $process = Ssh::create(config('app.git_ssh.user'), config('app.git_ssh.host'))
             ->usePrivateKey($private_key->getTmpFilename())
             ->disableStrictHostKeyChecking()
-            ->execute([
-                'rm '.$gitolite_conf->getConfFilePath(),
-                'cd '.GitoliteRepositoryConfiguration::GITOLITE_ADMIN_PATH,
-                'git pull origin master',
-                'git add .',
-                'git commit -m "Removed '.$gitolite_conf->getConfFilename().'"',
-                'git push origin master',
-            ]);
 
+            ->execute($this->getCommands($gitolite_conf));
         if (! $process->isSuccessful()) {
             $private_key->flushTmpFile();
 
@@ -70,5 +63,17 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
     {
         return SshKey::createFromContents(config('app.git_ssh.private_key'))
             ->saveAsTmpFile();
+    }
+
+    private function getCommands(GitoliteRepositoryConfiguration $conf): array
+    {
+        return [
+            'rm '.$conf->getConfFilePath(),
+            'cd '.GitoliteRepositoryConfiguration::GITOLITE_ADMIN_PATH,
+            'git pull origin master',
+            'git add .',
+            'git commit -m "Removed '.$conf->getConfFilename().'"',
+            'git push origin master',
+        ];
     }
 }
