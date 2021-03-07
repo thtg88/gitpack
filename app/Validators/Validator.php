@@ -2,6 +2,7 @@
 
 namespace App\Validators;
 
+use App\Rules\UniqueCaseInsensitive;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Validator as BaseValidator;
 
