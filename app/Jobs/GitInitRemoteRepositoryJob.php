@@ -46,6 +46,8 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
         if (! $process->isSuccessful()) {
             $private_key->flushTmpFile();
 
+            // TODO: should we remove the app if we can't create?
+
             throw new ProcessFailedException($process);
         }
 
@@ -75,9 +77,9 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
     private function getCommands(GitoliteRepositoryConfiguration $conf): array
     {
         return [
-            'echo "'.$conf->output().'" > '.$conf->getConfFilePath(),
             'cd '.GitoliteRepositoryConfiguration::GITOLITE_ADMIN_PATH,
             'git pull origin master',
+            'echo "'.$conf->output().'" > '.$conf->getConfFilePath(),
             'git add .',
             'git commit -m "Added '.$conf->getConfFilename().'"',
             'git push origin master',
