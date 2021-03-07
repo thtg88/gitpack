@@ -35,10 +35,7 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $private_key = SshKey::createFromContents(
-            config('app.git_ssh.private_key')
-        )->saveAsTmpFile();
-
+        $private_key = $this->initSshKey();
         $gitolite_conf = new GitoliteRepositoryConfiguration(
             $this->app->name,
             $this->app->getUserName()
@@ -69,5 +66,11 @@ class GitInitRemoteRepositoryJob implements ShouldQueue
 
         // TODO save output
         // dd($output);
+    }
+
+    private function initSshKey(): SshKey
+    {
+        return SshKey::createFromContents(config('app.git_ssh.private_key'))
+            ->saveAsTmpFile();
     }
 }
