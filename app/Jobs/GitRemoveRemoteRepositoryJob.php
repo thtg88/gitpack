@@ -41,6 +41,12 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
             $this->app->getUserName(),
         );
 
+        if (! $this->remoteFileExists(
+            $private_key,
+            $gitolite_conf->getConfFilePath()
+        )) {
+            return;
+        }
 
         $process = $this->initSsh($private_key)
             ->execute($this->getCommands($gitolite_conf));
@@ -71,6 +77,13 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
         )
             ->usePrivateKey($private_key->getTmpFilename())
             ->disableStrictHostKeyChecking();
+    }
+
+    private function remoteFileExists(SshKey $private_key, string $path): bool
+    {
+        return $this->initSsh($private_key)
+            ->execute('[ -f '.$path.' ]')
+            ->isSuccessful();
     }
 
     private function getCommands(GitoliteRepositoryConfiguration $conf): array
