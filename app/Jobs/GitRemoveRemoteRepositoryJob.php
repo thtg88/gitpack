@@ -18,18 +18,14 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /** @var \App\Models\App */
-    protected $app;
-
     /**
      * Create a new job instance.
      *
      * @param \App\Models\App $app
      * @return void
      */
-    public function __construct(App $app)
+    public function __construct(private App $app)
     {
-        $this->app = $app;
     }
 
     /**
@@ -39,29 +35,15 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
      */
     public function handle()
     {
-        $private_key = SshKey::createFromContents(
-            config('app.git_ssh.private_key')
-        )->saveAsTmpFile();
-
+        $private_key = $this->initSshKey();
         $gitolite_conf = new GitoliteRepositoryConfiguration(
             $this->app->name,
-            $this->app->getUserName()
+            $this->app->getUserName(),
         );
 
-        $process = Ssh::create(config('app.git_ssh.user'), config('app.git_ssh.host'))
-            ->usePrivateKey($private_key->getTmpFilename())
-            ->disableStrictHostKeyChecking()
-            ->execute([
-                'rm '.$gitolite_conf->getConfFilePath(),
-                'cd '.GitoliteRepositoryConfiguration::GITOLITE_ADMIN_PATH,
-                'git pull origin master',
-                'git add .',
-                'git commit -m "Removed '.$gitolite_conf->getConfFilename().'"',
-                'git push origin master',
-            ]);
 
-        $output = $process->getOutput();
-
+        $process = $this->initSsh($private_key)
+            ->execute($this->getCommands($gitolite_conf));
         if (! $process->isSuccessful()) {
             $private_key->flushTmpFile();
 
@@ -71,6 +53,35 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
         $private_key = $private_key->flushTmpFile();
 
         // TODO save output
+        // $output = $process->getOutput();
         // dd($output);
+    }
+
+    private function initSshKey(): SshKey
+    {
+        return SshKey::createFromContents(config('app.git_ssh.private_key'))
+            ->saveAsTmpFile();
+    }
+
+    private function initSsh(SshKey $private_key): Ssh
+    {
+        return Ssh::create(
+            config('app.git_ssh.user'),
+            config('app.git_ssh.host'),
+        )
+            ->usePrivateKey($private_key->getTmpFilename())
+            ->disableStrictHostKeyChecking();
+    }
+
+    private function getCommands(GitoliteRepositoryConfiguration $conf): array
+    {
+        return [
+            'rm '.$conf->getConfFilePath(),
+            'cd '.GitoliteRepositoryConfiguration::GITOLITE_ADMIN_PATH,
+            'git pull origin master',
+            'git add .',
+            'git commit -m "Removed '.$conf->getConfFilename().'"',
+            'git push origin master',
+        ];
     }
 }
