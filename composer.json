@@ -1,15 +1,15 @@
 {
-    "name": "laravel/laravel",
+    "name": "thtg88/gitpack",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Deploy your Laravel apps to AWS Lambda using Git.",
     "keywords": [
         "framework",
         "laravel"
     ],
-    "license": "MIT",
+    "license": "proprietary",
     "require": {
         "php": "^8.0",
-        "ext-redis": "^5.3.2",
+        "ext-redis": "*",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
