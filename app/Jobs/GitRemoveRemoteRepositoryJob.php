@@ -88,8 +88,19 @@ class GitRemoveRemoteRepositoryJob implements ShouldQueue
 
     private function getCommands(GitoliteRepositoryConfiguration $conf): array
     {
+        $repository_name = $conf->getRepositoryName();
+
         return [
             'rm '.$conf->getConfFilePath(),
+            // It's necessary to remove the git repo manually from the server
+            // (as indicated in https://gitolite.com/gitolite/basic-admin.html#removingrenaming-a-repo)
+            // So we pipe the password to a txt file (new-line necessary)
+            // Sudo remove it, and later remove the tmp txt pwd file
+            "echo \"".config('app.git_ssh.sudo_password')."\n\"".
+                " > ~/pwd-".$repository_name.".txt",
+            'sudo -S rm -rf /home/git/repositories/'.$repository_name.'.git'.
+                ' <~/pwd-'.$repository_name.'.txt',
+            'rm ~/pwd-'.$repository_name.'.txt',
             'cd '.GitoliteRepositoryConfiguration::GITOLITE_ADMIN_PATH,
             'git pull origin master',
             'git add .',
