@@ -5,8 +5,10 @@ namespace App\Services;
 use App\Http\Requests\Contracts\DestroyRequestInterface;
 use App\Http\Requests\Contracts\PaginateRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
+use App\Http\Requests\Contracts\UpdateRequestInterface;
 use App\Jobs\GitRemoteRepository\InitJob;
 use App\Jobs\GitRemoteRepository\RemoveJob;
+use App\Jobs\GitRemoteRepository\RenameJob;
 use App\Repositories\AppRepository;
 use Illuminate\Database\Eloquent\Model;
 
@@ -71,6 +73,32 @@ class AppService extends ResourceService
         $resource = $this->repository->create($data);
 
         dispatch(new InitJob($resource));
+
+        return $resource;
+    }
+
+    /**
+     * Updates a model instance with given request, and id.
+     *
+     * @param \App\Http\Requests\Contracts\UpdateRequestInterface $request
+     * @param int $id The id of the model
+     * @return null|\Illuminate\Database\Eloquent\Model
+     */
+    public function update(UpdateRequestInterface $request, $id): ?Model
+    {
+        $old_name = $this->show($id)->name;
+        $data = $request->validated();
+
+        $resource = $this->repository->update($id, $data);
+
+        // If name has changed, rename remote repo
+        if ($old_name !== $resource->name) {
+            dispatch(new RenameJob(
+                $resource,
+                $old_name,
+                $resource->name
+            ));
+        }
 
         return $resource;
     }
