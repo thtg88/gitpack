@@ -16,7 +16,6 @@ class InitJob extends Job implements SingleGitoliteConfigurationCommandsInterfac
      */
     public function __construct(private App $app)
     {
-        return ;
     }
 
     /**
