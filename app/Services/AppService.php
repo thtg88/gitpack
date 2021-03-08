@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Http\Requests\Contracts\DestroyRequestInterface;
 use App\Http\Requests\Contracts\PaginateRequestInterface;
 use App\Http\Requests\Contracts\StoreRequestInterface;
-use App\Jobs\GitInitRemoteRepositoryJob;
-use App\Jobs\GitRemoveRemoteRepositoryJob;
+use App\Jobs\GitRemoteRepository\InitJob;
+use App\Jobs\GitRemoteRepository\RemoveJob;
 use App\Repositories\AppRepository;
 use Illuminate\Database\Eloquent\Model;
 
@@ -50,7 +50,7 @@ class AppService extends ResourceService
         $resource = $this->repository->destroy($id);
 
         if ($resource !== null) {
-            dispatch(new GitRemoveRemoteRepositoryJob($resource));
+            dispatch(new RemoveJob($resource));
         }
 
         return $resource;
@@ -70,7 +70,7 @@ class AppService extends ResourceService
 
         $resource = $this->repository->create($data);
 
-        dispatch(new GitInitRemoteRepositoryJob($resource));
+        dispatch(new InitJob($resource));
 
         return $resource;
     }
