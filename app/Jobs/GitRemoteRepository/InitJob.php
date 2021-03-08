@@ -50,10 +50,9 @@ class InitJob extends Job implements SingleGitoliteConfigurationCommandsInterfac
     public function getCommands(
         GitoliteRepositoryConfiguration $conf
     ): array {
-        return [
-            'echo "'.$conf->output().'" > '.$conf->getConfFilePath(),
-            'git add .',
-            'git commit -m "Added '.$conf->getConfFilename().'"',
-        ];
+        return array_merge(
+            [$this->getEchoConfCommand($conf)],
+            $this->getAddAndCommitCommands('Added '.$conf->getConfFilename())
+        );
     }
 }

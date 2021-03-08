@@ -58,20 +58,23 @@ class RemoveJob extends Job implements SingleGitoliteConfigurationCommandsInterf
     ): array {
         $repository_name = $conf->getRepositoryName();
 
-        return [
-            'rm '.$conf->getConfFilePath(),
-            // It's necessary to remove the git repo manually from the server
-            // (as indicated in https://gitolite.com/gitolite/basic-admin.html#removingrenaming-a-repo)
-            // So we pipe the password to a txt file (new-line necessary)
-            // Sudo remove it, and later remove the tmp txt pwd file
+        // It's necessary to remove the git repo manually from the server
+        // (as indicated in https://gitolite.com/gitolite/basic-admin.html#removingrenaming-a-repo)
+        // So we pipe the password to a txt file (new-line necessary)
+        // Sudo remove it, and later remove the tmp txt pwd file
+        $commands = [
+            $this->getRmConfCommand($conf),
             $this->getCreateTmpPwdFileCommand($repository_name),
             $this->getSudoWrappedCommand(
                 'rm -rf /home/git/repositories/'.$repository_name.'.git',
                 $repository_name
             ),
             $this->getRemoveTmpPwdFileCommand($repository_name),
-            'git add .',
-            'git commit -m "Removed '.$conf->getConfFilename().'"',
         ];
+
+        return array_merge(
+            $commands,
+            $this->getAddAndCommitCommands('Removed '.$conf->getConfFilename())
+        );
     }
 }

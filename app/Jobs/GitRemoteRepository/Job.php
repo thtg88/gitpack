@@ -44,9 +44,7 @@ abstract class Job implements ShouldQueue
 
     protected function getPostCommands(): array
     {
-        return [
-            'git push origin master',
-        ];
+        return ['git push origin master'];
     }
 
     protected function getCreateTmpPwdFileCommand(string $repository): string
@@ -68,6 +66,26 @@ abstract class Job implements ShouldQueue
     protected function getPwdTmpFilePath(string $repository): string
     {
         return '~/pwd-'.$repository.'.tmp';
+    }
+
+    protected function getRmConfCommand(
+        GitoliteRepositoryConfiguration $conf
+    ): string {
+        return 'rm '.$conf->getConfFilePath();
+    }
+
+    protected function getEchoConfCommand(
+        GitoliteRepositoryConfiguration $conf
+    ): string {
+        return 'echo "'.$conf->output().'" > '.$conf->getConfFilePath();
+    }
+
+    protected function getAddAndCommitCommands(string $commit_message): array
+    {
+        return [
+            'git add .',
+            'git commit -m "'.$commit_message.'"',
+        ];
     }
 
     protected function initSshKey(): SshKey
