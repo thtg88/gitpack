@@ -4,6 +4,7 @@ namespace App\Http\Requests\App;
 
 use App\Http\Requests\UpdateRequest as BaseUpdateRequest;
 use App\Repositories\AppRepository;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends BaseUpdateRequest
 {
@@ -31,8 +32,12 @@ class UpdateRequest extends BaseUpdateRequest
                 'string',
                 'max:255',
                 'regex:/^[a-zA-Z0-9-_]+$/i',
-                // TODO add unique case-insensitive validation rule
-                'unique:'.$this->repository->getModelTable(),
+                Rule::uniqueCaseInsensitive(
+                    $this->repository->getModelTable()
+                )->where(
+                    fn ($query) => $query->whereNull('deleted_at')
+                        ->where('id', '<>', $this->route('id'))
+                ),
             ],
         ];
 
