@@ -264,5 +264,7 @@ return [
         'user' => env('GIT_SSH_USER'),
 
         'host' => env('GIT_SSH_HOST'),
+
+        'sudo_password' => env('GIT_SSH_SUDO_PASSWORD'),
     ],
 ];
