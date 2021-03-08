@@ -4,14 +4,8 @@ namespace App;
 
 class GitoliteRepositoryConfiguration
 {
-    const GITOLITE_ADMIN_PATH = '~/gitolite-admin';
-    const GITOLITE_ADMIN_CONF_FOLDER_NAME = 'conf';
-
-    /** @var string */
-    protected $repository_name;
-
-    /** @var string */
-    protected $user_name;
+    public const GITOLITE_ADMIN_PATH = '~/gitolite-admin';
+    public const GITOLITE_ADMIN_CONF_FOLDER_NAME = 'conf';
 
     /**
      * Create a new Gitolite repository configuration instance.
@@ -20,10 +14,10 @@ class GitoliteRepositoryConfiguration
      * @param string $user_name
      * @return void
      */
-    public function __construct(string $repository_name, string $user_name)
-    {
-        $this->repository_name = $repository_name;
-        $this->user_name = $user_name;
+    public function __construct(
+        private string $repository_name,
+        private string $user_name,
+    ) {
     }
 
     public function getRepositoryName(): string
