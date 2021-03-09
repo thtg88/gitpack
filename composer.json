@@ -22,6 +22,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "brainmaestro/composer-git-hooks": "^2.8",
+        "brianium/paratest": "^6.2",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^2.16",
@@ -92,6 +93,6 @@
         "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --dry-run",
         "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no",
         "stan": "vendor/bin/psalm --no-cache",
-        "test": "vendor/bin/phpunit"
+        "test": "@php artisan test --parallel --recreate-databases"
     }
 }
