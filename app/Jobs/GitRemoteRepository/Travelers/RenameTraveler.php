@@ -13,6 +13,11 @@ final class RenameTraveler extends Traveler
         return $this->new_conf;
     }
 
+    public function getNewGitoliteConfFilePath(): string
+    {
+        return $this->new_conf->getConfFilePath();
+    }
+
     public function setNewGitoliteConf(GitoliteRepositoryConfiguration $new_conf): self
     {
         $this->new_conf = $new_conf;
