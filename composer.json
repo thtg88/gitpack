@@ -20,6 +20,7 @@
         "thtg88/laravel-scaffold-commands": "^0.3.0"
     },
     "require-dev": {
+        "ext-pdo_sqlite": "*",
         "barryvdh/laravel-debugbar": "^3.5",
         "brainmaestro/composer-git-hooks": "^2.8",
         "brianium/paratest": "^6.2",
