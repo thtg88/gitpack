@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9650bc45f5229d0c407fd2a7686d91d",
+    "content-hash": "b20ed7f6e8cc1c8cb43cbd697ed42a72",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5930,30 +5930,32 @@
             "time": "2021-02-18T23:11:19+00:00"
         },
         {
-            "name": "thtg88/laravel-scaffold-commands",
+            "name": "thtg88/laravel-exists-without-soft-deleted-rule",
             "version": "v0.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/thtg88/laravel-scaffold-commands.git",
-                "reference": "1e82680496ed3e3c6a74592cfe32c5f47ec55ebb"
+                "url": "https://github.com/thtg88/laravel-exists-without-soft-deleted-rule.git",
+                "reference": "243791bf9a0a230ff03863bb8117182905fd8cda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thtg88/laravel-scaffold-commands/zipball/1e82680496ed3e3c6a74592cfe32c5f47ec55ebb",
-                "reference": "1e82680496ed3e3c6a74592cfe32c5f47ec55ebb",
+                "url": "https://api.github.com/repos/thtg88/laravel-exists-without-soft-deleted-rule/zipball/243791bf9a0a230ff03863bb8117182905fd8cda",
+                "reference": "243791bf9a0a230ff03863bb8117182905fd8cda",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^7.0.0 || ^8.0.0",
                 "illuminate/container": "^7.0.0 || ^8.0.0",
-                "illuminate/support": "^7.0.0 || ^8.0.0"
+                "illuminate/contracts": "^7.0.0 || ^8.0.0",
+                "illuminate/support": "^7.0.0 || ^8.0.0",
+                "illuminate/validation": "^7.0.0 || ^8.0.0"
             },
             "require-dev": {
                 "brainmaestro/composer-git-hooks": "^2.8",
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "orchestra/testbench": "^5.3",
+                "fzaninotto/faker": "^1.9",
+                "orchestra/testbench": "^5.1",
                 "phpstan/phpstan": "^0.12.14",
-                "phpunit/phpunit": "^9.0"
+                "phpunit/phpunit": "^8.1"
             },
             "type": "library",
             "extra": {
@@ -5964,13 +5966,13 @@
                 },
                 "laravel": {
                     "providers": [
-                        "Thtg88\\LaravelScaffoldCommands\\LaravelScaffoldCommandsServiceProvider"
+                        "Thtg88\\ExistsWithoutSoftDeletedRule\\ExistsWithoutSoftDeletedRuleServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Thtg88\\LaravelScaffoldCommands\\": "src/"
+                    "Thtg88\\ExistsWithoutSoftDeletedRule\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5983,12 +5985,12 @@
                     "email": "admin@marco-marassi.com"
                 }
             ],
-            "description": "Handy Laravel Scaffold Artisan Commands.",
+            "description": "Provide a Laravel `exists` validation rule that excludes soft-deleted models.",
             "support": {
-                "issues": "https://github.com/thtg88/laravel-scaffold-commands/issues",
-                "source": "https://github.com/thtg88/laravel-scaffold-commands/tree/v0.3.0"
+                "issues": "https://github.com/thtg88/laravel-exists-without-soft-deleted-rule/issues",
+                "source": "https://github.com/thtg88/laravel-exists-without-soft-deleted-rule/tree/v0.3.0"
             },
-            "time": "2020-11-16T13:32:47+00:00"
+            "time": "2021-01-16T20:09:55+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

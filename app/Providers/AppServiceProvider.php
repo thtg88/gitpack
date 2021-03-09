@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rule;
 use Laravel\Telescope\TelescopeServiceProvider as BaseTelescopeServiceProvider;
+use Thtg88\ExistsWithoutSoftDeletedRule\Rules\ExistsWithoutSoftDeletedRule;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Rule::macro(
+            'existsWithoutSoftDeleted',
+            static function (string $table, string $column = 'NULL') {
+                return new ExistsWithoutSoftDeletedRule($table, $column);
+            }
+        );
         Rule::macro(
             'uniqueCaseInsensitive',
             static function ($table, $column = 'NULL') {
