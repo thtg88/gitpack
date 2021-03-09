@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\EnvironmentVariableController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,16 @@ Route::group(['middleware' => 'auth'], static function () {
         Route::get('/', [AppController::class, 'index'])->name('index');
         Route::post('/', [AppController::class, 'store'])->name('store');
     });
+
+    Route::group(
+        ['as' => 'environment-variables.', 'prefix' => 'environment-variables'],
+        static function () {
+            Route::delete('{id}', [EnvironmentVariableController::class, 'destroy'])
+                ->name('destroy');
+            Route::put('{id}', [EnvironmentVariableController::class, 'update'])
+                ->name('update');
+            Route::post('/', [EnvironmentVariableController::class, 'store'])
+                ->name('store');
+        }
+    );
 });
