@@ -11,11 +11,7 @@ abstract class RemoteCommand implements RemoteCommandInterface
     {
         $traveler->appendCommand($this->getCommand($traveler));
 
-        $response = $next($traveler);
-
-        dump($response);
-
-        return $response;
+        return $next($traveler);
     }
 
     abstract public function getCommand(Traveler $traveler): string;
