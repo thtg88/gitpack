@@ -47,4 +47,23 @@ class AppController extends CrudController
 
         parent::__construct();
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\Http\Requests\Contracts\EditRequestInterface $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(EditRequestInterface $request, $id)
+    {
+        $resource = $this->service->show($id)->load([
+            'environment_variables' => static function ($query) {
+                $query->orderBy('name');
+            },
+        ]);
+
+        return view($this->getViewBaseFolder().'.edit.main')
+            ->with('resource', $resource);
+    }
 }
