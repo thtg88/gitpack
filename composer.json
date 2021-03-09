@@ -33,6 +33,7 @@
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
         "psalm/plugin-laravel": "^1.4",
+        "thtg88/laravel-db-scaffold-commands": "^0.3.0",
         "tightenco/tlint": "^5.0",
         "vimeo/psalm": "^4.1"
     },

@@ -11658,6 +11658,71 @@
             "time": "2020-07-12T23:59:07+00:00"
         },
         {
+            "name": "thtg88/laravel-db-scaffold-commands",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thtg88/laravel-db-scaffold-commands.git",
+                "reference": "5628e234b5813b9dda5848b986a03d2cdc985597"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thtg88/laravel-db-scaffold-commands/zipball/5628e234b5813b9dda5848b986a03d2cdc985597",
+                "reference": "5628e234b5813b9dda5848b986a03d2cdc985597",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "illuminate/console": "^8.29",
+                "illuminate/support": "^8.29",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "brainmaestro/composer-git-hooks": "^2.8",
+                "fakerphp/faker": "^1.13",
+                "friendsofphp/php-cs-fixer": "^2.17",
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^6.7",
+                "phpunit/phpunit": "^9.5",
+                "vimeo/psalm": "^4.3"
+            },
+            "type": "library",
+            "extra": {
+                "hooks": {
+                    "pre-commit": [
+                        "vendor/bin/php-cs-fixer fix --using-cache=no --diff --dry-run"
+                    ]
+                },
+                "laravel": {
+                    "providers": [
+                        "Thtg88\\DbScaffold\\DbScaffoldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Thtg88\\DbScaffold\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Marassi",
+                    "email": "admin@marco-marassi.com"
+                }
+            ],
+            "description": "Scaffold a DB with the given Laravel Artisan commands.",
+            "support": {
+                "issues": "https://github.com/thtg88/laravel-db-scaffold-commands/issues",
+                "source": "https://github.com/thtg88/laravel-db-scaffold-commands/tree/v0.3.0"
+            },
+            "time": "2021-03-02T14:38:36+00:00"
+        },
+        {
             "name": "tightenco/tlint",
             "version": "v5.0.15",
             "source": {
