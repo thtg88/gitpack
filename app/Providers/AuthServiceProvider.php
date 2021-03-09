@@ -3,10 +3,11 @@
 namespace App\Providers;
 
 use App\Models\App;
+use App\Models\EnvironmentVariable;
 use App\Policies\AppPolicy;
+use App\Policies\EnvironmentVariablePolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         App::class => AppPolicy::class,
+        EnvironmentVariable::class => EnvironmentVariablePolicy::class,
     ];
 
     /**
