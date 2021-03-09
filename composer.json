@@ -17,7 +17,6 @@
         "laravel/tinker": "^2.5",
         "sentry/sentry-laravel": "^2.2",
         "spatie/ssh": "^1.4",
-        "thtg88/laravel-scaffold-commands": "^0.3.0"
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
@@ -34,6 +33,7 @@
         "phpunit/phpunit": "^9.3.3",
         "psalm/plugin-laravel": "^1.4",
         "thtg88/laravel-db-scaffold-commands": "^0.3.0",
+        "thtg88/laravel-scaffold-commands": "^0.3.0",
         "tightenco/tlint": "^5.0",
         "vimeo/psalm": "^4.1"
     },
