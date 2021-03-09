@@ -3,11 +3,12 @@
 namespace App\Jobs\GitRemoteRepository;
 
 use App\GitoliteRepositoryConfiguration;
+use App\Jobs\GitRemoteRepository\Pipelines\RemovePipeline;
+use App\Jobs\GitRemoteRepository\Travelers\RemoveTraveler;
 use App\Models\App;
-use App\SshKey;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-class RemoveJob extends Job implements SingleGitoliteConfigurationCommandsInterface
+class RemoveJob extends Job
 {
     /**
      * Create a new job instance.
@@ -24,22 +25,18 @@ class RemoveJob extends Job implements SingleGitoliteConfigurationCommandsInterf
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $private_key = $this->initSshKey();
-        $gitolite_conf = new GitoliteRepositoryConfiguration(
-            $this->app->name,
-            $this->app->getUserName(),
-        );
+        $traveler = RemovePipeline::run($this->getTraveler());
+        $conf_path = $traveler->getGitoliteConfFilePath();
 
-        if (! $this->remoteFileExists(
-            $private_key,
-            $gitolite_conf->getConfFilePath()
-        )) {
+        if (! $this->remoteFileExists($private_key, $conf_path)) {
             return;
         }
 
-        $process = $this->executeCommands($private_key, $gitolite_conf);
+        $process = $this->initSsh($private_key)
+            ->execute($traveler->getCommands());
         if (! $process->isSuccessful()) {
             $private_key->flushTmpFile();
 
@@ -53,28 +50,13 @@ class RemoveJob extends Job implements SingleGitoliteConfigurationCommandsInterf
         // dd($output);
     }
 
-    public function getCommands(
-        GitoliteRepositoryConfiguration $conf
-    ): array {
-        $repository_name = $conf->getRepositoryName();
-
-        // It's necessary to remove the git repo manually from the server
-        // (as indicated in https://gitolite.com/gitolite/basic-admin.html#removingrenaming-a-repo)
-        // So we pipe the password to a txt file (new-line necessary)
-        // Sudo remove it, and later remove the tmp txt pwd file
-        $commands = [
-            $this->getRmConfCommand($conf),
-            $this->getCreateTmpPwdFileCommand($repository_name),
-            $this->getSudoWrappedCommand(
-                'rm -rf /home/git/repositories/'.$repository_name.'.git',
-                $repository_name
-            ),
-            $this->getRemoveTmpPwdFileCommand($repository_name),
-        ];
-
-        return array_merge(
-            $commands,
-            $this->getAddAndCommitCommands('Removed '.$conf->getConfFilename())
+    protected function getTraveler(): RemoveTraveler
+    {
+        $gitolite_conf = new GitoliteRepositoryConfiguration(
+            $this->app->name,
+            $this->app->getUserName(),
         );
+
+        return (new RemoveTraveler())->setGitoliteConf($gitolite_conf);
     }
 }
