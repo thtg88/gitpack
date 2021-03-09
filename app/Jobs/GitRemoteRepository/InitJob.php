@@ -3,10 +3,12 @@
 namespace App\Jobs\GitRemoteRepository;
 
 use App\GitoliteRepositoryConfiguration;
+use App\Jobs\GitRemoteRepository\Pipelines\InitPipeline;
+use App\Jobs\GitRemoteRepository\Travelers\InitTraveler;
 use App\Models\App;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-class InitJob extends Job implements SingleGitoliteConfigurationCommandsInterface
+class InitJob extends Job
 {
     /**
      * Create a new job instance.
@@ -26,12 +28,9 @@ class InitJob extends Job implements SingleGitoliteConfigurationCommandsInterfac
     public function handle(): void
     {
         $private_key = $this->initSshKey();
-        $gitolite_conf = new GitoliteRepositoryConfiguration(
-            $this->app->name,
-            $this->app->getUserName()
-        );
+        $commands = InitPipeline::run($this->getTraveler())->getCommands();
 
-        $process = $this->executeCommands($private_key, $gitolite_conf);
+        $process = $this->initSsh($private_key)->execute($commands);
         if (! $process->isSuccessful()) {
             $private_key->flushTmpFile();
 
@@ -47,12 +46,13 @@ class InitJob extends Job implements SingleGitoliteConfigurationCommandsInterfac
         // dd($output);
     }
 
-    public function getCommands(
-        GitoliteRepositoryConfiguration $conf
-    ): array {
-        return array_merge(
-            [$this->getEchoConfCommand($conf)],
-            $this->getAddAndCommitCommands('Added '.$conf->getConfFilename())
+    protected function getTraveler(): InitTraveler
+    {
+        $gitolite_conf = new GitoliteRepositoryConfiguration(
+            $this->app->name,
+            $this->app->getUserName(),
         );
+
+        return (new InitTraveler())->setGitoliteConf($gitolite_conf);
     }
 }

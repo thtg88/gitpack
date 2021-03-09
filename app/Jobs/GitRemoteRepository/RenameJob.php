@@ -3,6 +3,8 @@
 namespace App\Jobs\GitRemoteRepository;
 
 use App\GitoliteRepositoryConfiguration;
+use App\Jobs\GitRemoteRepository\Pipelines\RenamePipeline;
+use App\Jobs\GitRemoteRepository\Travelers\RenameTraveler;
 use App\Models\App;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -28,9 +30,33 @@ class RenameJob extends Job
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $private_key = $this->initSshKey();
+        $traveler = RenamePipeline::run($this->getTraveler());
+        $old_conf_path = $traveler->getGitoliteConfFilePath();
+
+        if (! $this->remoteFileExists($private_key, $old_conf_path)) {
+            return;
+        }
+
+        $process = $this->initSsh($private_key)
+            ->execute($traveler->getCommands());
+        if (! $process->isSuccessful()) {
+            $private_key->flushTmpFile();
+
+            throw new ProcessFailedException($process);
+        }
+
+        $private_key = $private_key->flushTmpFile();
+
+        // TODO save output
+        // $output = $process->getOutput();
+        // dd($output);
+    }
+
+    public function getTraveler(): RenameTraveler
+    {
         $old_conf = new GitoliteRepositoryConfiguration(
             $this->from,
             $this->app->getUserName(),
@@ -40,57 +66,7 @@ class RenameJob extends Job
             $this->app->getUserName(),
         );
 
-        if (! $this->remoteFileExists(
-            $private_key,
-            $old_conf->getConfFilePath()
-        )) {
-            return;
-        }
-
-        $process = $this->initSsh($private_key)
-            ->execute(array_merge(
-                $this->getPreCommands(),
-                $this->getCommands($old_conf, $new_conf),
-                $this->getPostCommands(),
-            ));
-        if (! $process->isSuccessful()) {
-            $private_key->flushTmpFile();
-
-            throw new ProcessFailedException($process);
-        }
-
-        $private_key = $private_key->flushTmpFile();
-    }
-
-    public function getCommands(
-        GitoliteRepositoryConfiguration $old_conf,
-        GitoliteRepositoryConfiguration $new_conf,
-    ): array {
-        $old_repository = $old_conf->getRepositoryName();
-        $new_repository = $new_conf->getRepositoryName();
-
-        // It's necessary to rename the git repo manually from the server
-        // (as indicated in https://gitolite.com/gitolite/basic-admin.html#removingrenaming-a-repo)
-        // So we pipe the password to a txt file (new-line necessary)
-        // Sudo move it, and later remove the tmp txt pwd file
-        $commands = [
-            $this->getCreateTmpPwdFileCommand($old_repository),
-            $this->getSudoWrappedCommand(
-                'mv /home/git/repositories/'.$old_repository.'.git'.
-                    ' /home/git/repositories/'.$new_repository.'.git',
-                $old_repository
-            ),
-            $this->getRemoveTmpPwdFileCommand($old_repository),
-            $this->getRmConfCommand($old_conf),
-            $this->getEchoConfCommand($new_conf),
-        ];
-
-        return array_merge(
-            $commands,
-            $this->getAddAndCommitCommands(
-                'Renamed '.$old_conf->getConfFilename().
-                ' to '.$new_conf->getConfFilename()
-            )
-        );
+        return (new RenameTraveler())->setGitoliteConf($old_conf)
+            ->setNewGitoliteConf($new_conf);
     }
 }
