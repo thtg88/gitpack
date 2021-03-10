@@ -15,6 +15,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
+        "phpseclib/phpseclib": "^3.0",
         "sentry/sentry-laravel": "^2.2",
         "spatie/ssh": "^1.4",
         "thtg88/laravel-exists-without-soft-deleted-rule": "^0.3.0"
