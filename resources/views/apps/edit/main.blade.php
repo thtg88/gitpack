@@ -22,6 +22,10 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <p>Config Variables</p>
 
+                    {{--
+                        TODO: make show/hide work with AJAX route
+                        that return all env variables for the app via JSON
+                    --}}
                     @foreach ($resource->environment_variables as $_environment_variable)
                         <span class="block">
                             {{ $_environment_variable->name }}
