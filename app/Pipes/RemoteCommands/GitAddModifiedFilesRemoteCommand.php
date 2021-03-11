@@ -5,6 +5,7 @@ namespace App\Pipes\RemoteCommands;
 use App\Travelers\GitRemoteRepository\InitTraveler as InitGitRemoteRepositoryTraveler;
 use App\Travelers\GitRemoteRepository\RemoveTraveler as RemoveGitRemoteRepositoryTraveler;
 use App\Travelers\GitRemoteRepository\RenameTraveler as RenameGitRemoteRepositoryTraveler;
+use App\Travelers\RemoteSshKeys\RemoveTraveler as RemoveRemoteSshKeysTraveler;
 use App\Travelers\RemoteSshKeys\StoreTraveler as StoreRemoteSshKeysTraveler;
 use App\Travelers\Traveler;
 use InvalidArgumentException;
@@ -31,6 +32,10 @@ final class GitAddModifiedFilesRemoteCommand extends RemoteCommand
                 $traveler->getGitoliteConfFilePath(),
                 $traveler->getNewGitoliteConfFilePath(),
             ];
+        }
+
+        if ($traveler instanceof RemoveRemoteSshKeysTraveler) {
+            return [$traveler->getGitoliteKeyFilePath()];
         }
 
         if ($traveler instanceof StoreRemoteSshKeysTraveler) {

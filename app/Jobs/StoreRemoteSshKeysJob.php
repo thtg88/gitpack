@@ -4,7 +4,9 @@ namespace App\Jobs;
 
 use App\GitoliteAdminRepository\Key;
 use App\Models\User;
+use App\Pipelines\RemoveRemoteSshKeysPipeline;
 use App\Pipelines\StoreRemoteSshKeysPipeline;
+use App\Travelers\RemoteSshKeys\RemoveTraveler;
 use App\Travelers\RemoteSshKeys\StoreTraveler;
 use phpseclib3\Crypt\RSA\PublicKey;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -65,11 +67,11 @@ final class StoreRemoteSshKeysJob extends SshJob
         // dd($output);
     }
 
-    protected function getRemoverTraveler(): RemoveRemoteSshKeysTraveler
+    protected function getRemoverTraveler(): RemoveTraveler
     {
         $key = new Key($this->user, $this->public_key);
 
-        return (new RemoveRemoteSshKeysTraveler())->setKey($key);
+        return (new RemoveTraveler())->setKey($key);
     }
 
     protected function getTraveler(): StoreTraveler
