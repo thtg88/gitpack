@@ -2,13 +2,14 @@
 
 namespace App\Jobs\GitRemoteRepository;
 
-use App\GitoliteRepositoryConfiguration;
-use App\Jobs\GitRemoteRepository\Pipelines\RemovePipeline;
-use App\Jobs\GitRemoteRepository\Travelers\RemoveTraveler;
+use App\GitoliteAdminRepository\Conf;
+use App\Jobs\SshJob;
 use App\Models\App;
+use App\Pipelines\RemoveGitRemoteRepositoryPipeline;
+use App\Travelers\GitRemoteRepository\RemoveTraveler;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-class RemoveJob extends Job
+class RemoveJob extends SshJob
 {
     /**
      * Create a new job instance.
@@ -28,7 +29,9 @@ class RemoveJob extends Job
     public function handle(): void
     {
         $private_key = $this->initSshKey();
-        $traveler = RemovePipeline::run($this->getTraveler());
+        $traveler = RemoveGitRemoteRepositoryPipeline::run(
+            $this->getTraveler()
+        );
         $conf_path = $traveler->getGitoliteConfFilePath();
 
         if (! $this->remoteFileExists($private_key, $conf_path)) {
@@ -52,10 +55,7 @@ class RemoveJob extends Job
 
     protected function getTraveler(): RemoveTraveler
     {
-        $gitolite_conf = new GitoliteRepositoryConfiguration(
-            $this->app->name,
-            $this->app->getUserName(),
-        );
+        $gitolite_conf = new Conf($this->app->name, $this->app->getUserName());
 
         return (new RemoveTraveler())->setGitoliteConf($gitolite_conf);
     }

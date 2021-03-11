@@ -21,6 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'ssh_keys_last_generated_at'
     ];
 
     /**
@@ -40,6 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'ssh_keys_last_generated_at' => 'datetime',
     ];
 
     // MUTATORS
