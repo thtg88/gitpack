@@ -8,7 +8,6 @@ use App\Pipelines\RemoveRemoteSshKeysPipeline;
 use App\Pipelines\StoreRemoteSshKeysPipeline;
 use App\Travelers\RemoteSshKeys\RemoveTraveler;
 use App\Travelers\RemoteSshKeys\StoreTraveler;
-use phpseclib3\Crypt\RSA\PublicKey;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 final class StoreRemoteSshKeysJob extends SshJob
