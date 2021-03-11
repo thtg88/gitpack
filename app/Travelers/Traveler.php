@@ -3,7 +3,6 @@
 namespace App\Travelers;
 
 use App\GitoliteAdminRepository\Conf;
-use App\SshKey;
 
 abstract class Traveler implements TravelerInterface
 {

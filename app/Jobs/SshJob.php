@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Travelers\Traveler;
-use App\SshKey;
+use App\GitServerPrivateSshKey;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,13 +17,14 @@ abstract class SshJob implements ShouldQueue
 
     abstract protected function getTraveler(): Traveler;
 
-    protected function initSshKey(): SshKey
+    protected function initSshKey(): GitServerPrivateSshKey
     {
-        return SshKey::createFromContents(config('app.git_ssh.private_key'))
-            ->saveAsTmpFile();
+        return GitServerPrivateSshKey::createFromContents(
+            config('app.git_ssh.private_key')
+        )->saveAsTmpFile();
     }
 
-    protected function initSsh(SshKey $private_key): Ssh
+    protected function initSsh(GitServerPrivateSshKey $private_key): Ssh
     {
         return Ssh::create(
             config('app.git_ssh.user'),
@@ -34,7 +35,7 @@ abstract class SshJob implements ShouldQueue
     }
 
     protected function remoteFileExists(
-        SshKey $private_key,
+        GitServerPrivateSshKey $private_key,
         string $path
     ): bool {
         return $this->initSsh($private_key)
