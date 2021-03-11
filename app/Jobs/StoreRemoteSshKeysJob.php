@@ -43,6 +43,8 @@ final class StoreRemoteSshKeysJob extends SshJob
             $remover = $this->initSsh($admin_private_key)
                 ->execute($remover_traveler->getCommands());
             if (! $remover->isSuccessful()) {
+                $admin_private_key->flushTmpFile();
+
                 throw new ProcessFailedException($remover);
             }
         }
