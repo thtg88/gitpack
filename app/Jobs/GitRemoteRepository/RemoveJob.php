@@ -2,9 +2,9 @@
 
 namespace App\Jobs\GitRemoteRepository;
 
-use App\GitoliteRepositoryConfiguration;
 use App\Jobs\GitRemoteRepository\Pipelines\RemovePipeline;
 use App\Jobs\GitRemoteRepository\Travelers\RemoveTraveler;
+use App\GitoliteAdminRepository\Conf;
 use App\Models\App;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -52,10 +52,7 @@ class RemoveJob extends Job
 
     protected function getTraveler(): RemoveTraveler
     {
-        $gitolite_conf = new GitoliteRepositoryConfiguration(
-            $this->app->name,
-            $this->app->getUserName(),
-        );
+        $gitolite_conf = new Conf($this->app->name, $this->app->getUserName());
 
         return (new RemoveTraveler())->setGitoliteConf($gitolite_conf);
     }

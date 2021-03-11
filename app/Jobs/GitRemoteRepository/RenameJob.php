@@ -2,9 +2,9 @@
 
 namespace App\Jobs\GitRemoteRepository;
 
-use App\GitoliteRepositoryConfiguration;
 use App\Jobs\GitRemoteRepository\Pipelines\RenamePipeline;
 use App\Jobs\GitRemoteRepository\Travelers\RenameTraveler;
+use App\GitoliteAdminRepository\Conf;
 use App\Models\App;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -57,11 +57,11 @@ class RenameJob extends Job
 
     public function getTraveler(): RenameTraveler
     {
-        $old_conf = new GitoliteRepositoryConfiguration(
+        $old_conf = new Conf(
             $this->from,
             $this->app->getUserName(),
         );
-        $new_conf = new GitoliteRepositoryConfiguration(
+        $new_conf = new Conf(
             $this->to,
             $this->app->getUserName(),
         );

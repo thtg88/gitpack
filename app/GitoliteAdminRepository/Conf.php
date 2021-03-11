@@ -1,11 +1,14 @@
 <?php
 
-namespace App;
+namespace App\GitoliteAdminRepository;
 
-class GitoliteRepositoryConfiguration
+class Conf
 {
-    public const GITOLITE_ADMIN_PATH = '~/gitolite-admin';
-    public const GITOLITE_ADMIN_CONF_FOLDER_NAME = 'conf';
+    /** @var string */
+    private const FILE_EXTENSION = 'conf';
+
+    /** @var string */
+    private const FOLDER_NAME = 'conf';
 
     /**
      * Create a new Gitolite repository configuration instance.
@@ -32,9 +35,11 @@ class GitoliteRepositoryConfiguration
      */
     public function getConfFilePath(): string
     {
-        return self::GITOLITE_ADMIN_PATH.DIRECTORY_SEPARATOR.
-            self::GITOLITE_ADMIN_CONF_FOLDER_NAME.DIRECTORY_SEPARATOR.
-            $this->getConfFilename();
+        return implode(DIRECTORY_SEPARATOR, [
+            Utils::BASE_PATH,
+            self::FOLDER_NAME,
+            $this->getConfFilename()
+        ]);
     }
 
     /**
@@ -44,7 +49,10 @@ class GitoliteRepositoryConfiguration
      */
     public function getConfFilename(): string
     {
-        return $this->getRepositoryName().'.conf';
+        return implode('.', [
+            $this->getRepositoryName(),
+            self::FILE_EXTENSION,
+        ]);
     }
 
     /**

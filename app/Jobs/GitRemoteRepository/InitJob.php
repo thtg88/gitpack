@@ -2,9 +2,9 @@
 
 namespace App\Jobs\GitRemoteRepository;
 
-use App\GitoliteRepositoryConfiguration;
 use App\Jobs\GitRemoteRepository\Pipelines\InitPipeline;
 use App\Jobs\GitRemoteRepository\Travelers\InitTraveler;
+use App\GitoliteAdminRepository\Conf;
 use App\Models\App;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -48,10 +48,7 @@ class InitJob extends Job
 
     protected function getTraveler(): InitTraveler
     {
-        $gitolite_conf = new GitoliteRepositoryConfiguration(
-            $this->app->name,
-            $this->app->getUserName(),
-        );
+        $gitolite_conf = new Conf($this->app->name, $this->app->getUserName());
 
         return (new InitTraveler())->setGitoliteConf($gitolite_conf);
     }
