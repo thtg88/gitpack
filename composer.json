@@ -15,6 +15,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
+        "maennchen/zipstream-php": "^2.1",
         "phpseclib/phpseclib": "^3.0",
         "sentry/sentry-laravel": "^2.2",
         "spatie/ssh": "^1.4",
