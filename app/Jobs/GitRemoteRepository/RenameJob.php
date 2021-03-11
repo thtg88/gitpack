@@ -56,7 +56,7 @@ class RenameJob extends SshJob
         // dd($output);
     }
 
-    public function getTraveler(): RenameTraveler
+    protected function getTraveler(): RenameTraveler
     {
         $old_conf = new Conf(
             $this->from,
