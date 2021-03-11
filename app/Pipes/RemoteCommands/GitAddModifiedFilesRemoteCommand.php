@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Jobs\GitRemoteRepository\RemoteCommands;
+namespace App\Pipes\RemoteCommands;
 
-use App\Jobs\GitRemoteRepository\Travelers\InitTraveler;
-use App\Jobs\GitRemoteRepository\Travelers\RemoveTraveler;
-use App\Jobs\GitRemoteRepository\Travelers\RenameTraveler;
-use App\Jobs\GitRemoteRepository\Travelers\Traveler;
+use App\Travelers\GitRemoteRepository\InitTraveler;
+use App\Travelers\GitRemoteRepository\RemoveTraveler;
+use App\Travelers\GitRemoteRepository\RenameTraveler;
+use App\Travelers\StoreRemoteSshKeysTraveler;
+use App\Travelers\Traveler;
 use InvalidArgumentException;
 
-final class GitAddAllRemoteCommand extends RemoteCommand
+final class GitAddModifiedFilesRemoteCommand extends RemoteCommand
 {
     public function getCommand(Traveler $traveler): string
     {
@@ -30,6 +31,10 @@ final class GitAddAllRemoteCommand extends RemoteCommand
                 $traveler->getGitoliteConfFilePath(),
                 $traveler->getNewGitoliteConfFilePath(),
             ];
+        }
+
+        if ($traveler instanceof StoreRemoteSshKeysTraveler) {
+            return [$traveler->getGitoliteKeyFilePath()];
         }
 
         // TODO should we add all in this case just in case?

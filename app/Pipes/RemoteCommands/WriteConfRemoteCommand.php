@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jobs\GitRemoteRepository\RemoteCommands;
+namespace App\Pipes\RemoteCommands;
 
-use App\Jobs\GitRemoteRepository\Travelers\RenameTraveler;
-use App\Jobs\GitRemoteRepository\Travelers\Traveler;
+use App\Travelers\GitRemoteRepository\RenameTraveler;
+use App\Travelers\Traveler;
 
 final class WriteConfRemoteCommand extends RemoteCommand
 {

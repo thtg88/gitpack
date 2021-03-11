@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\GitRemoteRepository\RemoteCommands\Concerns;
+namespace App\Pipes\RemoteCommands\Concerns;
 
 trait SudoCommandWrapper
 {

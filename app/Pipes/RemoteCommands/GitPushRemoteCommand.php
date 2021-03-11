@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Jobs\GitRemoteRepository\RemoteCommands;
+namespace App\Pipes\RemoteCommands;
 
-use App\Jobs\GitRemoteRepository\Travelers\Traveler;
+use App\Travelers\Traveler;
 
 final class GitPushRemoteCommand extends RemoteCommand
 {
