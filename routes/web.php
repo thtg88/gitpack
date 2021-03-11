@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\EnvironmentVariableController;
+use App\Http\Controllers\SshKeyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,4 +40,9 @@ Route::group(['middleware' => 'auth'], static function () {
                 ->name('store');
         }
     );
+
+    Route::get('ssh-keys', [SshKeyController::class, 'index'])
+        ->name('ssh-keys.index');
+    Route::post('ssh-keys', [SshKeyController::class, 'store'])
+        ->name('ssh-keys.store');
 });
