@@ -30,4 +30,11 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
+
+    public function withGeneratedSshKeys(): self
+    {
+        return $this->state([
+            'ssh_keys_last_generated_at' => now()->toDateTimeString(),
+        ]);
+    }
 }
