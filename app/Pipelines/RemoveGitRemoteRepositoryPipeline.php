@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pipelines\GitRemoteRepository;
+namespace App\Pipelines;
 
 use App\Pipes\RemoteCommands\CdGitoliteAdminRemoteCommand;
 use App\Pipes\RemoteCommands\CreateTmpPwdFileRemoteCommand;
@@ -14,7 +14,7 @@ use App\Pipes\RemoteCommands\RemoveTmpPwdFileRemoteCommand;
 use App\Travelers\GitRemoteRepository\RemoveTraveler;
 use Illuminate\Pipeline\Pipeline;
 
-final class RemovePipeline extends Pipeline
+final class RemoveGitRemoteRepositoryPipeline extends Pipeline
 {
     protected $pipes = [
         CdGitoliteAdminRemoteCommand::class,

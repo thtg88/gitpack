@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pipelines\GitRemoteRepository;
+namespace App\Pipelines;
 
 use App\Pipes\RemoteCommands\CdGitoliteAdminRemoteCommand;
 use App\Pipes\RemoteCommands\CreateTmpPwdFileRemoteCommand;
@@ -15,7 +15,7 @@ use App\Pipes\RemoteCommands\WriteConfRemoteCommand;
 use App\Travelers\GitRemoteRepository\RenameTraveler;
 use Illuminate\Pipeline\Pipeline;
 
-final class RenamePipeline extends Pipeline
+final class RenameGitRemoteRepositoryPipeline extends Pipeline
 {
     protected $pipes = [
         CdGitoliteAdminRemoteCommand::class,

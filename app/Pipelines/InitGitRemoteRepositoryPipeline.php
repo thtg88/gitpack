@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pipelines\GitRemoteRepository;
+namespace App\Pipelines;
 
 use App\Pipes\RemoteCommands\CdGitoliteAdminRemoteCommand;
 use App\Pipes\RemoteCommands\GitAddModifiedFilesRemoteCommand;
@@ -11,7 +11,7 @@ use App\Pipes\RemoteCommands\WriteConfRemoteCommand;
 use App\Travelers\GitRemoteRepository\InitTraveler;
 use Illuminate\Pipeline\Pipeline;
 
-final class InitPipeline extends Pipeline
+final class InitGitRemoteRepositoryPipeline extends Pipeline
 {
     protected $pipes = [
         CdGitoliteAdminRemoteCommand::class,

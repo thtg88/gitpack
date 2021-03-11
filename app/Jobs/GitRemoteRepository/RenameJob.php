@@ -5,7 +5,7 @@ namespace App\Jobs\GitRemoteRepository;
 use App\GitoliteAdminRepository\Conf;
 use App\Jobs\SshJob;
 use App\Models\App;
-use App\Pipelines\GitRemoteRepository\RenamePipeline;
+use App\Pipelines\RenameGitRemoteRepositoryPipeline;
 use App\Travelers\GitRemoteRepository\RenameTraveler;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -34,7 +34,9 @@ class RenameJob extends SshJob
     public function handle(): void
     {
         $private_key = $this->initSshKey();
-        $traveler = RenamePipeline::run($this->getTraveler());
+        $traveler = RenameGitRemoteRepositoryPipeline::run(
+            $this->getTraveler()
+        );
         $old_conf_path = $traveler->getGitoliteConfFilePath();
 
         if (! $this->remoteFileExists($private_key, $old_conf_path)) {

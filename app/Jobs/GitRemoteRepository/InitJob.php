@@ -5,7 +5,7 @@ namespace App\Jobs\GitRemoteRepository;
 use App\GitoliteAdminRepository\Conf;
 use App\Jobs\SshJob;
 use App\Models\App;
-use App\Pipelines\GitRemoteRepository\InitPipeline;
+use App\Pipelines\InitGitRemoteRepositoryPipeline;
 use App\Travelers\GitRemoteRepository\InitTraveler;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -29,7 +29,8 @@ class InitJob extends SshJob
     public function handle(): void
     {
         $private_key = $this->initSshKey();
-        $commands = InitPipeline::run($this->getTraveler())->getCommands();
+        $commands = InitGitRemoteRepositoryPipeline::run($this->getTraveler())
+            ->getCommands();
 
         $process = $this->initSsh($private_key)->execute($commands);
         if (! $process->isSuccessful()) {
