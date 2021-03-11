@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Jobs\GitRemoteRepository\Pipelines;
+namespace App\Pipelines\GitRemoteRepository;
 
-use App\Jobs\GitRemoteRepository\RemoteCommands\CdGitoliteAdminRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\CreateTmpPwdFileRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\GitAddAllRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\GitCommitRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\GitPullRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\GitPushRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\RemoveConfRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\RemoveGitRepositoryRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\RemoveTmpPwdFileRemoteCommand;
-use App\Jobs\GitRemoteRepository\Travelers\RemoveTraveler;
+use App\Pipes\RemoteCommands\CdGitoliteAdminRemoteCommand;
+use App\Pipes\RemoteCommands\CreateTmpPwdFileRemoteCommand;
+use App\Pipes\RemoteCommands\GitAddModifiedFilesRemoteCommand;
+use App\Pipes\RemoteCommands\GitCommitRemoteCommand;
+use App\Pipes\RemoteCommands\GitPullRemoteCommand;
+use App\Pipes\RemoteCommands\GitPushRemoteCommand;
+use App\Pipes\RemoteCommands\RemoveConfRemoteCommand;
+use App\Pipes\RemoteCommands\RemoveGitRepositoryRemoteCommand;
+use App\Pipes\RemoteCommands\RemoveTmpPwdFileRemoteCommand;
+use App\Travelers\GitRemoteRepository\RemoveTraveler;
 use Illuminate\Pipeline\Pipeline;
 
 final class RemovePipeline extends Pipeline
@@ -28,7 +28,7 @@ final class RemovePipeline extends Pipeline
         RemoveGitRepositoryRemoteCommand::class,
         RemoveTmpPwdFileRemoteCommand::class,
         // TODO: Should we add exclusively the new conf?
-        GitAddAllRemoteCommand::class,
+        GitAddModifiedFilesRemoteCommand::class,
         GitCommitRemoteCommand::class,
         GitPushRemoteCommand::class,
     ];

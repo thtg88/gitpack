@@ -2,11 +2,11 @@
 
 namespace App\Jobs\GitRemoteRepository;
 
-use App\Jobs\GitRemoteRepository\Pipelines\RenamePipeline;
 use App\Jobs\GitRemoteRepository\Travelers\RenameTraveler;
 use App\GitoliteAdminRepository\Conf;
 use App\Jobs\SshJob;
 use App\Models\App;
+use App\Pipelines\GitRemoteRepository\RenamePipeline;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class RenameJob extends SshJob

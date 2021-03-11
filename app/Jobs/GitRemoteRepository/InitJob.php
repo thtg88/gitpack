@@ -2,11 +2,11 @@
 
 namespace App\Jobs\GitRemoteRepository;
 
-use App\Jobs\GitRemoteRepository\Pipelines\InitPipeline;
 use App\Jobs\GitRemoteRepository\Travelers\InitTraveler;
 use App\GitoliteAdminRepository\Conf;
 use App\Jobs\SshJob;
 use App\Models\App;
+use App\Pipelines\GitRemoteRepository\InitPipeline;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class InitJob extends SshJob

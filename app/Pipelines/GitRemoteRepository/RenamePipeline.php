@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Jobs\GitRemoteRepository\Pipelines;
+namespace App\Pipelines\GitRemoteRepository;
 
-use App\Jobs\GitRemoteRepository\RemoteCommands\CdGitoliteAdminRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\CreateTmpPwdFileRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\GitAddAllRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\GitCommitRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\GitPullRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\GitPushRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\RemoveConfRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\RemoveTmpPwdFileRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\RenameGitRepositoryRemoteCommand;
-use App\Jobs\GitRemoteRepository\RemoteCommands\WriteConfRemoteCommand;
-use App\Jobs\GitRemoteRepository\Travelers\RenameTraveler;
+use App\Pipes\RemoteCommands\CdGitoliteAdminRemoteCommand;
+use App\Pipes\RemoteCommands\CreateTmpPwdFileRemoteCommand;
+use App\Pipes\RemoteCommands\GitAddModifiedFilesRemoteCommand;
+use App\Pipes\RemoteCommands\GitCommitRemoteCommand;
+use App\Pipes\RemoteCommands\GitPullRemoteCommand;
+use App\Pipes\RemoteCommands\GitPushRemoteCommand;
+use App\Pipes\RemoteCommands\RemoveConfRemoteCommand;
+use App\Pipes\RemoteCommands\RemoveTmpPwdFileRemoteCommand;
+use App\Pipes\RemoteCommands\RenameGitRepositoryRemoteCommand;
+use App\Pipes\RemoteCommands\WriteConfRemoteCommand;
+use App\Travelers\GitRemoteRepository\RenameTraveler;
 use Illuminate\Pipeline\Pipeline;
 
 final class RenamePipeline extends Pipeline
@@ -29,7 +29,7 @@ final class RenamePipeline extends Pipeline
         RemoveTmpPwdFileRemoteCommand::class,
         RemoveConfRemoteCommand::class,
         WriteConfRemoteCommand::class,
-        GitAddAllRemoteCommand::class,
+        GitAddModifiedFilesRemoteCommand::class,
         GitCommitRemoteCommand::class,
         GitPushRemoteCommand::class,
     ];
