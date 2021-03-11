@@ -18,6 +18,7 @@
         "maennchen/zipstream-php": "^2.1",
         "sentry/sentry-laravel": "^2.2",
         "spatie/ssh": "^1.4",
+        "symfony/process": "^5.2",
         "thtg88/laravel-exists-without-soft-deleted-rule": "^0.3.0"
     },
     "require-dev": {
