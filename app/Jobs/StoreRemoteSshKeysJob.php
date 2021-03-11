@@ -9,7 +9,7 @@ use App\Travelers\RemoteSshKeys\StoreTraveler;
 use phpseclib3\Crypt\RSA\PublicKey;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-class StoreRemoteSshKeysJob extends SshJob
+final class StoreRemoteSshKeysJob extends SshJob
 {
     /**
      * Create a new job instance.
