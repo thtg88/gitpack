@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\GitRemoteRepository\Travelers;
+namespace App\Travelers\GitRemoteRepository;
 
 final class RemoveTraveler extends Traveler
 {
