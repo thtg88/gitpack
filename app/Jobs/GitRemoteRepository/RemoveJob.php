@@ -5,10 +5,11 @@ namespace App\Jobs\GitRemoteRepository;
 use App\Jobs\GitRemoteRepository\Pipelines\RemovePipeline;
 use App\Jobs\GitRemoteRepository\Travelers\RemoveTraveler;
 use App\GitoliteAdminRepository\Conf;
+use App\Jobs\SshJob;
 use App\Models\App;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-class RemoveJob extends Job
+class RemoveJob extends SshJob
 {
     /**
      * Create a new job instance.

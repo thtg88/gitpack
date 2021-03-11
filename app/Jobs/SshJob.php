@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Jobs\GitRemoteRepository;
+namespace App\Jobs;
 
-use App\Jobs\GitRemoteRepository\Travelers\Traveler;
+use App\Travelers\Traveler;
 use App\SshKey;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Ssh\Ssh;
 
-abstract class Job implements ShouldQueue
+abstract class SshJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
