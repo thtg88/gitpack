@@ -17,12 +17,12 @@ final class StoreRemoteSshKeysJob extends SshJob
      * Create a new job instance.
      *
      * @param \App\Models\User $user
-     * @param \phpseclib3\Crypt\RSA\PublicKey $public_key
+     * @param string $public_key
      * @return void
      */
     public function __construct(
         private User $user,
-        private PublicKey $public_key,
+        private string $public_key,
     ) {
     }
 

@@ -3,7 +3,6 @@
 namespace App\GitoliteAdminRepository;
 
 use App\Models\User;
-use phpseclib3\Crypt\RSA\PublicKey;
 
 class Key
 {
@@ -13,12 +12,9 @@ class Key
     /** @var string */
     private const FOLDER_NAME = 'keydir';
 
-    /** @var string */
-    private const PUBLIC_KEY_TYPE = 'OpenSSH';
-
     public function __construct(
         private User $user,
-        private PublicKey $public_key,
+        private string $public_key,
     ) {
     }
 
@@ -41,11 +37,11 @@ class Key
 
     public function getPublicKeyContents(): string
     {
-        return $this->public_key->toString(self::PUBLIC_KEY_TYPE);
+        return $this->public_key;
     }
 
     public function getUserName(): string
     {
-        return $this->user->name;
+        return $this->user->email;
     }
 }

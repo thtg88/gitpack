@@ -47,7 +47,7 @@ class App extends Model
 
     public function getUserName(): string
     {
-        return $this->user->name;
+        return $this->user->email;
     }
 
     // RELATIONSHIPS
