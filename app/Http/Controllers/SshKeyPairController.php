@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\StoreRemoteSshKeysJob;
+use App\SshKeyPair;
 use Illuminate\Http\Request;
-use phpseclib3\Crypt\Common\Formats\Keys\OpenSSH;
-use phpseclib3\Crypt\RSA;
-use RuntimeException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
 
-class SshKeyController extends Controller
+class SshKeyPairController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class SshKeyController extends Controller
      */
     public function index()
     {
-        return view('ssh-keys.index.main');
+        return view('ssh-key-pairs.index.main');
     }
 
     /**
@@ -32,10 +32,19 @@ class SshKeyController extends Controller
     {
         $user = $request->user();
 
-        OpenSSH::setComment($user->email);
+        try {
+            $ssh_key_pair = (new SshKeyPair($user))->writeToDisk();
+        } catch (ProcessFailedException $e) {
+            throw ValidationException::withMessages([
+                'user_id' => ['We could not generate your keys at this time.'],
+            ]);
+        }
 
-        $private_key = RSA::createKey();
-        $public_key = $private_key->getPublicKey();
+        $private_key = $ssh_key_pair->getPrivateKeyContents();
+        $public_key = $ssh_key_pair->getPublicKeyContents();
+
+        // We won't be able to use the object anymore after this point
+        $ssh_key_pair = $ssh_key_pair->delete();
 
         // upload keys to git server
         dispatch(new StoreRemoteSshKeysJob($user, $public_key));
@@ -51,11 +60,8 @@ class SshKeyController extends Controller
             // initialise zipstream with output zip filename and options.
             $zip = new ZipStream('gitpack-ssh-key-pair.zip', $options);
 
-            $zip->addFile('id_rsa_gitpack', $private_key->toString('OpenSSH'));
-            $zip->addFile(
-                'id_rsa_gitpack.pub',
-                $public_key->toString('OpenSSH')
-            );
+            $zip->addFile('id_rsa_gitpack', $private_key);
+            $zip->addFile('id_rsa_gitpack.pub', $public_key);
 
             $zip->finish();
 

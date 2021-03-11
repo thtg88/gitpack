@@ -29,9 +29,14 @@
                         or we will have to re-generate them for you if you lose them.
                         All previous accesses of those keys will be revoked.
                     </p>
-                    <form action="{{ route('ssh-keys.store') }}" method="post">
+                    <form action="{{ route('ssh-key-pairs.store') }}" method="post">
                         @csrf
                         <p>A .zip file will be downloaded with your public and private key pair.</p>
+                        @error('user_id')
+                            <div>
+                                <x-invalid-field>{{ $message }}</x-invalid-field>
+                            </div>
+                        @enderror
                         <x-button type="submit">
                             @if (auth()->user()->ssh_keys_last_generated_at !== null)
                                 {{ __('Re-generate keys') }}

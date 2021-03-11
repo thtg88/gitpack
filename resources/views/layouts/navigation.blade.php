@@ -15,7 +15,7 @@
                     <x-nav-link href="{{ route('apps.index') }}" :active="request()->is(['apps', 'apps/*'])">
                         {{ __('Apps') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('ssh-keys.index') }}" :active="request()->is(['ssh-keys', 'ssh-keys/*'])">
+                    <x-nav-link href="{{ route('ssh-key-pairs.index') }}" :active="request()->is(['ssh-key-pairs', 'ssh-key-pairs/*'])">
                         {{ __('SSH Keys') }}
                     </x-nav-link>
                 </div>
@@ -69,7 +69,7 @@
             <x-responsive-nav-link href="{{ route('apps.index') }}" :active="request()->is(['apps', 'apps/*'])">
                 {{ __('Apps') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('ssh-keys.index') }}" :active="request()->is(['ssh-keys', 'ssh-keys/*'])">
+            <x-responsive-nav-link href="{{ route('ssh-key-pairs.index') }}" :active="request()->is(['ssh-key-pairs', 'ssh-key-pairs/*'])">
                 {{ __('SSH Keys') }}
             </x-responsive-nav-link>
         </div>
