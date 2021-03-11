@@ -17,7 +17,7 @@ class CreateEnvironmentVariablesTable extends Migration
             $table->id();
             $table->foreignId('app_id')->index();
             $table->string('name');
-            $table->text('value');
+            $table->text('value')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
