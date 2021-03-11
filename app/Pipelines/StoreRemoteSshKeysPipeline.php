@@ -8,7 +8,7 @@ use App\Pipes\RemoteCommands\GitCommitRemoteCommand;
 use App\Pipes\RemoteCommands\GitPullRemoteCommand;
 use App\Pipes\RemoteCommands\GitPushRemoteCommand;
 use App\Pipes\RemoteCommands\WritePublicKeyRemoteCommand;
-use App\Travelers\StoreRemoteSshKeysTraveler;
+use App\Travelers\RemoteSshKeys\StoreTraveler;
 use Illuminate\Pipeline\Pipeline;
 
 final class StoreRemoteSshKeysPipeline extends Pipeline
@@ -23,8 +23,8 @@ final class StoreRemoteSshKeysPipeline extends Pipeline
     ];
 
     public static function run(
-        StoreRemoteSshKeysTraveler $traveler
-    ): StoreRemoteSshKeysTraveler {
+        StoreTraveler $traveler
+    ): StoreTraveler {
         return app(self::class)->send($traveler)->thenReturn();
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Pipes\RemoteCommands;
 
-use App\Travelers\GitRemoteRepository\InitTraveler;
-use App\Travelers\GitRemoteRepository\RemoveTraveler;
-use App\Travelers\GitRemoteRepository\RenameTraveler;
-use App\Travelers\StoreRemoteSshKeysTraveler;
+use App\Travelers\GitRemoteRepository\InitTraveler as InitGitRemoteRepositoryTraveler;
+use App\Travelers\GitRemoteRepository\RemoveTraveler as RemoveGitRemoteRepositoryTraveler;
+use App\Travelers\GitRemoteRepository\RenameTraveler as RenameGitRemoteRepositoryTraveler;
+use App\Travelers\RemoteSshKeys\StoreTraveler as StoreRemoteSshKeysTraveler;
 use App\Travelers\Traveler;
 use InvalidArgumentException;
 
@@ -19,19 +19,19 @@ final class GitCommitRemoteCommand extends RemoteCommand
             return 'git commit -m "Added '.$key->getFilename().'"';
         }
 
-        if ($traveler instanceof InitTraveler) {
+        if ($traveler instanceof InitGitRemoteRepositoryTraveler) {
             $conf = $traveler->getGitoliteConf();
 
             return 'git commit -m "Added '.$conf->getConfFilename().'"';
         }
 
-        if ($traveler instanceof RemoveTraveler) {
+        if ($traveler instanceof RemoveGitRemoteRepositoryTraveler) {
             $conf = $traveler->getGitoliteConf();
 
             return 'git commit -m "Removed '.$conf->getConfFilename().'"';
         }
 
-        if ($traveler instanceof RenameTraveler) {
+        if ($traveler instanceof RenameGitRemoteRepositoryTraveler) {
             $conf = $traveler->getGitoliteConf();
             $new_conf = $traveler->getNewGitoliteConf();
 

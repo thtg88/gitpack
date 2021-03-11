@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Travelers;
+namespace App\Travelers\RemoteSshKeys;
 
 use App\GitoliteAdminRepository\Key;
+use App\Travelers\Traveler as BaseTraveler;
 
-final class StoreRemoteSshKeysTraveler extends Traveler
+abstract class Traveler extends BaseTraveler
 {
-    private Key $key;
+    protected Key $key;
 
     public function getGitoliteKeyFilePath(): string
     {
@@ -16,11 +17,6 @@ final class StoreRemoteSshKeysTraveler extends Traveler
     public function getKey(): Key
     {
         return $this->key;
-    }
-
-    public function getPublicKeyContents(): string
-    {
-        return $this->key->getPublicKeyContents();
     }
 
     public function getUserName(): string
