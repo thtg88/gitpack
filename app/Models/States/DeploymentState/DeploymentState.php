@@ -15,6 +15,4 @@ abstract class DeploymentState extends State
             ->allowTransition(Started::class, Failed::class)
         ;
     }
-
-    abstract public function name(): string;
 }
