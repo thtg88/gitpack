@@ -27,7 +27,6 @@ final class RemoveGitRemoteRepositoryPipeline extends Pipeline
         CreateTmpPwdFileRemoteCommand::class,
         RemoveGitRepositoryRemoteCommand::class,
         RemoveTmpPwdFileRemoteCommand::class,
-        // TODO: Should we add exclusively the new conf?
         GitAddModifiedFilesRemoteCommand::class,
         GitCommitRemoteCommand::class,
         GitPushRemoteCommand::class,

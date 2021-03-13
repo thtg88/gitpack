@@ -17,7 +17,6 @@ final class InitGitRemoteRepositoryPipeline extends Pipeline
         CdGitoliteAdminRemoteCommand::class,
         GitPullRemoteCommand::class,
         WriteConfRemoteCommand::class,
-        // TODO: Should we add exclusively the new conf?
         GitAddModifiedFilesRemoteCommand::class,
         GitCommitRemoteCommand::class,
         GitPushRemoteCommand::class,
