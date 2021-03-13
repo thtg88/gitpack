@@ -1,20 +1,13 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Actions;
 
-use App\Travelers\Traveler;
 use App\GitServerPrivateSshKey;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Travelers\Traveler;
 use Spatie\Ssh\Ssh;
 
-abstract class SshJob implements ShouldQueue
+abstract class SshAction
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     abstract protected function getTraveler(): Traveler;
 
     protected function initSshKey(): GitServerPrivateSshKey
