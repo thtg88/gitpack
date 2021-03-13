@@ -15,9 +15,9 @@ class CreateDeploymentsTable extends Migration
     {
         Schema::create('deployments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('app_id');
-            $table->foreignId('user_id');
-            $table->string('sha');
+            $table->foreignId('app_id')->index();
+            $table->foreignId('user_id')->index();
+            $table->string('sha')->index();
             $table->string('state');
             $table->timestamps();
         });
