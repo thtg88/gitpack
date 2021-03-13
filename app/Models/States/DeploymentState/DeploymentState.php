@@ -3,6 +3,7 @@
 namespace App\Models\States\DeploymentState;
 
 use Spatie\ModelStates\State;
+use Spatie\ModelStates\StateConfig;
 
 abstract class DeploymentState extends State
 {
