@@ -15,7 +15,7 @@ class CreateAppsTable extends Migration
     {
         Schema::create('apps', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->index();
+            $table->foreignId('user_id')->index();
             $table->uuid('uuid')->index();
             $table->string('name')->index();
             $table->timestamp('deleted_at')->nullable();
