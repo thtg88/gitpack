@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        if (config('app.env') === 'local') {
+            if (User::firstWhere('email', 'admin@example.com') === null) {
+                User::create([
+                    'email' => 'admin@example.com',
+                    'name' => 'Admin',
+                    'password' => 'password',
+                ]);
+            }
+        }
     }
 }
