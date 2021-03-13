@@ -11,6 +11,7 @@ use App\Jobs\GitRemoteRepository\RemoveJob;
 use App\Jobs\GitRemoteRepository\RenameJob;
 use App\Repositories\AppRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class AppService extends ResourceService
 {
@@ -69,6 +70,7 @@ class AppService extends ResourceService
         $data = $request->validated();
 
         $data['user_id'] = $request->user()->id;
+        $data['uuid'] = Str::uuid();
 
         $resource = $this->repository->create($data);
 

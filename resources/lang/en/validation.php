@@ -130,6 +130,7 @@ return [
     |
     */
 
+    'sha' => 'The :attribute is not a valid full Git SHA.',
     'unique_case_insensitive' => 'The :attribute has already been taken.',
 
     'custom' => [

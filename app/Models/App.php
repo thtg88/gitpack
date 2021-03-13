@@ -17,6 +17,7 @@ class App extends Model
     protected $fillable = [
         'name',
         'user_id',
+        'uuid',
     ];
 
     /**
@@ -36,7 +37,9 @@ class App extends Model
     protected static function booted()
     {
         static::addGlobalScope('own_apps', function (Builder $builder) {
-            $builder->where('user_id', Auth::user()->id);
+            if (Auth::check()) {
+                $builder->where('user_id', Auth::user()->id);
+            }
         });
     }
 

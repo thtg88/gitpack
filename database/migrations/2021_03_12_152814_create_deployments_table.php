@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAppsTable extends Migration
+class CreateDeploymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateAppsTable extends Migration
      */
     public function up()
     {
-        Schema::create('apps', function (Blueprint $table) {
+        Schema::create('deployments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->index();
-            $table->uuid('uuid')->index();
-            $table->string('name')->index();
-            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('app_id');
+            $table->foreignId('user_id');
+            $table->string('sha');
+            $table->string('state');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateAppsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('apps');
+        Schema::dropIfExists('deployments');
     }
 }

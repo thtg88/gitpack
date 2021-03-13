@@ -8,6 +8,11 @@ use Illuminate\Validation\Validator as BaseValidator;
 
 class Validator extends BaseValidator
 {
+    public function validateSha(string $attribute, mixed $value): bool
+    {
+        return is_string($value) && preg_match('/[a-f0-9]{40}/', $value) === 1;
+    }
+
     /**
      * Validate the uniqueness of an attribute value in a case-insesitive way,
      * on a given database table.
