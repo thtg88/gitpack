@@ -34,6 +34,7 @@ class UpdateRequest extends BaseUpdateRequest
                 'string',
                 'max:255',
                 'regex:/^[a-zA-Z0-9-_]+$/i',
+                Rule::notIn(config('app.forbidden_git_repo_names')),
                 Rule::uniqueCaseInsensitive(
                     $this->repository->getModelTable()
                 )->where(

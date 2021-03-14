@@ -271,4 +271,19 @@ return [
     'deployments_api' => [
         'client_secret' => env('DEPLOYMENTS_API_CLIENT_SECRET'),
     ],
+
+    'forbidden_git_repo_names' => [
+        '.bash_history',
+        'bin',
+        '.gitolite',
+        'gitolite',
+        '.gitolite.rc',
+        '.gitpackrc',
+        'local',
+        'marco.pub',
+        'projects.list',
+        'repositories',
+        '.ssh',
+        '.viminfo',
+    ],
 ];
