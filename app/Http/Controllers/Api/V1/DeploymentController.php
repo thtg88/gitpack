@@ -66,13 +66,25 @@ class DeploymentController extends Controller
             abort(403, 'Please wait for the previous deployment to finish.');
         }
 
+        if ($app->aws_client_id === null || $app->aws_client_secret === null) {
+            abort(
+                403,
+                'Please set your AWS credentials '.
+                'in your app\'s Gitpack control panel'
+            );
+        }
+
         Deployment::create([
             'app_id' => $app->id,
             'sha' => $input['sha'],
             'user_id' => $user->id,
         ]);
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'aws_client_id' => $app->aws_client_id,
+            'aws_client_secret' => $app->aws_client_secret,
+        ]);
     }
 
     public function succeedCurrent(Request $request, App $app)

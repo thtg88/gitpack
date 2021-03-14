@@ -15,9 +15,21 @@ class App extends Model
      * @var array
      */
     protected $fillable = [
+        'aws_client_id',
+        'aws_client_secret',
         'name',
         'user_id',
         'uuid',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'aws_client_id',
+        'aws_client_secret',
     ];
 
     /**
@@ -26,6 +38,8 @@ class App extends Model
      * @var array
      */
     protected $casts = [
+        'aws_client_id' => 'encrypted',
+        'aws_client_secret' => 'encrypted',
         'user_id' => 'integer',
     ];
 

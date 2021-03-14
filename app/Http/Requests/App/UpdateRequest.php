@@ -27,6 +27,8 @@ class UpdateRequest extends BaseUpdateRequest
     public function rules(): array
     {
         $rules = [
+            'aws_client_id' => 'required|string|max:255',
+            'aws_client_secret' => 'required|string|max:255',
             'name' => [
                 'required',
                 'string',
