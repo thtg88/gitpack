@@ -17,17 +17,19 @@ class DeploymentController extends Controller
 {
     public function failCurrent(Request $request, App $app)
     {
-        $request->validate(['sha' => 'required|string|sha']);
+        $request->validate([
+            'sha' => 'required|string|sha',
+        ]);
 
-        $sha = $request->get('sha');
+        $input = $request->only('client_secret', 'sha');
 
         $deployment = Deployment::where([
             'app_id' => $app->id,
-            'sha' => $sha,
+            'sha' => $input['sha'],
             'state' => Started::$name,
         ])->firstOrFail();
 
-        $this->verfiyShaOrFail($app, $sha);
+        $this->verfiyShaOrFail($app, $input['sha']);
 
         try {
             $deployment->state->transitionTo(Failed::class);
@@ -49,6 +51,8 @@ class DeploymentController extends Controller
 
         $user = User::where('email', $input['email'])->firstOrFail();
 
+        $this->verfiyShaOrFail($app, $input['sha']);
+
         // check there isn't an existing deployment ongoing
         $deployment = Deployment::firstWhere([
             'app_id' => $app->id,
@@ -57,8 +61,6 @@ class DeploymentController extends Controller
         if ($deployment !== null) {
             abort(403, 'Please wait for the previous deployment to finish.');
         }
-
-        $this->verfiyShaOrFail($app, $input['sha']);
 
         Deployment::create([
             'app_id' => $app->id,
@@ -71,17 +73,19 @@ class DeploymentController extends Controller
 
     public function succeedCurrent(Request $request, App $app)
     {
-        $request->validate(['sha' => 'required|string|sha']);
+        $request->validate([
+            'sha' => 'required|string|sha',
+        ]);
 
-        $sha = $request->get('sha');
+        $input = $request->only('client_secret', 'sha');
 
         $deployment = Deployment::where([
             'app_id' => $app->id,
-            'sha' => $sha,
+            'sha' => $input['sha'],
             'state' => Started::$name,
         ])->firstOrFail();
 
-        $this->verfiyShaOrFail($app, $sha);
+        $this->verfiyShaOrFail($app, $input['sha']);
 
         try {
             $deployment->state->transitionTo(Succeeded::class);
