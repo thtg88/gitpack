@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Actions\GitRemoteRepository\VerifyShaAction;
 use App\Http\Controllers\Controller;
 use App\Models\App;
 use App\Models\Deployment;
@@ -25,6 +26,8 @@ class DeploymentController extends Controller
             'sha' => $sha,
             'state' => Started::$name,
         ])->firstOrFail();
+
+        $this->verfiyShaOrFail($app, $sha);
 
         try {
             $deployment->state->transitionTo(Failed::class);
@@ -55,6 +58,8 @@ class DeploymentController extends Controller
             abort(403, 'Please wait for the previous deployment to finish.');
         }
 
+        $this->verfiyShaOrFail($app, $input['sha']);
+
         Deployment::create([
             'app_id' => $app->id,
             'sha' => $input['sha'],
@@ -76,6 +81,8 @@ class DeploymentController extends Controller
             'state' => Started::$name,
         ])->firstOrFail();
 
+        $this->verfiyShaOrFail($app, $sha);
+
         try {
             $deployment->state->transitionTo(Succeeded::class);
         } catch (TransitionNotFound $e) {
@@ -83,5 +90,18 @@ class DeploymentController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    private function verfiyShaOrFail(App $app, string $sha): string
+    {
+        $action = new VerifyShaAction($app, $sha);
+
+        $is_valid_sha = $action();
+
+        if (! $is_valid_sha) {
+            abort(404);
+        }
+
+        return $sha;
     }
 }
