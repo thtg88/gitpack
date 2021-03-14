@@ -50,7 +50,7 @@ class DeploymentController extends Controller
             'sha' => 'required|string|sha',
         ]);
 
-        $input = $request->only('email', 'sha');
+        $input = $request->only('client_secret', 'email', 'sha');
 
         $user = User::where('email', $input['email'])->firstOrFail();
 
