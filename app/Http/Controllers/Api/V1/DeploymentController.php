@@ -17,17 +17,21 @@ class DeploymentController extends Controller
 {
     public function failCurrent(Request $request, App $app)
     {
-        $request->validate(['sha' => 'required|string|sha']);
+        $request->validate([
+            'client_secret' => 'required|string',
+            'sha' => 'required|string|sha',
+        ]);
 
-        $sha = $request->get('sha');
+        $input = $request->only('client_secret', 'sha');
 
         $deployment = Deployment::where([
             'app_id' => $app->id,
-            'sha' => $sha,
+            'sha' => $input['sha'],
             'state' => Started::$name,
         ])->firstOrFail();
 
-        $this->verfiyShaOrFail($app, $sha);
+        $this->verifyClientSecretOrFail($input['client_secret']);
+        $this->verfiyShaOrFail($app, $input['sha']);
 
         try {
             $deployment->state->transitionTo(Failed::class);
@@ -41,6 +45,7 @@ class DeploymentController extends Controller
     public function start(Request $request, App $app)
     {
         $request->validate([
+            'client_secret' => 'required|string',
             'email' => 'required|string|email',
             'sha' => 'required|string|sha',
         ]);
@@ -48,6 +53,9 @@ class DeploymentController extends Controller
         $input = $request->only('email', 'sha');
 
         $user = User::where('email', $input['email'])->firstOrFail();
+
+        $this->verifyClientSecretOrFail($input['client_secret']);
+        $this->verfiyShaOrFail($app, $input['sha']);
 
         // check there isn't an existing deployment ongoing
         $deployment = Deployment::firstWhere([
@@ -57,8 +65,6 @@ class DeploymentController extends Controller
         if ($deployment !== null) {
             abort(403, 'Please wait for the previous deployment to finish.');
         }
-
-        $this->verfiyShaOrFail($app, $input['sha']);
 
         Deployment::create([
             'app_id' => $app->id,
@@ -71,17 +77,21 @@ class DeploymentController extends Controller
 
     public function succeedCurrent(Request $request, App $app)
     {
-        $request->validate(['sha' => 'required|string|sha']);
+        $request->validate([
+            'client_secret' => 'required|string',
+            'sha' => 'required|string|sha',
+        ]);
 
-        $sha = $request->get('sha');
+        $input = $request->only('client_secret', 'sha');
 
         $deployment = Deployment::where([
             'app_id' => $app->id,
-            'sha' => $sha,
+            'sha' => $input['sha'],
             'state' => Started::$name,
         ])->firstOrFail();
 
-        $this->verfiyShaOrFail($app, $sha);
+        $this->verifyClientSecretOrFail($input['client_secret']);
+        $this->verfiyShaOrFail($app, $input['sha']);
 
         try {
             $deployment->state->transitionTo(Succeeded::class);
@@ -90,6 +100,15 @@ class DeploymentController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    private function verifyClientSecretOrFail(string $client_secret): string
+    {
+        if ($client_secret !== config('app.git_server.client_secret')) {
+            abort(404);
+        }
+
+        return $client_secret;
     }
 
     private function verfiyShaOrFail(App $app, string $sha): string
