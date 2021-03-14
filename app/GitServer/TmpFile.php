@@ -1,40 +1,25 @@
 <?php
 
-namespace App;
+namespace App\GitServer;
 
 /**
- * This class represents an SSH key private key,
- * used to connect to the remote Git server by this application.
+ * This class represents a tmp file saved on the server,
+ * which MUST be "destroyed" after finishing using it.
  */
-final class GitServerPrivateSshKey
+abstract class TmpFile
 {
-    /**
-     * The key contents.
-     *
-     * @var string
-     */
-    private $contents;
+    protected ?string $contents;
 
     /**
-     * The key tmp file descriptor.
+     * The tmp file descriptor.
      *
      * @var resource
      */
-    private $tmp_file;
+    protected $tmp_file;
 
-    /**
-     * The key tmp file name.
-     *
-     * @var string
-     */
-    private $tmp_filename;
+    protected ?string $tmp_filename;
 
-    /**
-     * Create new SSH key instance.
-     *
-     * @return void
-     */
-    private function __construct()
+    protected function __construct()
     {
     }
 
@@ -42,11 +27,11 @@ final class GitServerPrivateSshKey
      * Create an SSH key from the given contents.
      *
      * @param string $contents
-     * @return self
+     * @return static
      */
-    public static function createFromContents(string $contents): self
+    public static function createFromContents(string $contents): static
     {
-        return (new self())->setContents($contents);
+        return (new static())->setContents($contents);
     }
 
     public function getTmpFilename(): string
@@ -58,9 +43,9 @@ final class GitServerPrivateSshKey
      * Set the SSH key contents, and make sure it is in the right format.
      *
      * @param string $contents
-     * @return self
+     * @return static
      */
-    public function setContents(string $contents): self
+    public function setContents(string $contents): static
     {
         $this->contents = trim($contents)."\n";
 
@@ -70,9 +55,9 @@ final class GitServerPrivateSshKey
     /**
      * Save the SSH key as a temporary file for usage across the app.
      *
-     * @return self
+     * @return static
      */
-    public function saveAsTmpFile(): self
+    public function saveAsTmpFile(): static
     {
         $this->tmp_file = tmpfile();
         $this->tmp_filename = stream_get_meta_data($this->tmp_file)['uri'];
@@ -86,9 +71,9 @@ final class GitServerPrivateSshKey
      * You MUST call this function when you finished using the file,
      * so that the tmp file gets deleted.
      *
-     * @return self
+     * @return static
      */
-    public function flushTmpFile(): self
+    public function flushTmpFile(): static
     {
         if ($this->tmp_file === null) {
             return $this;
