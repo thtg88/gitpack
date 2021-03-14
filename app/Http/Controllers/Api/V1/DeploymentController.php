@@ -116,7 +116,7 @@ class DeploymentController extends Controller
 
     private function verifyClientSecretOrFail(string $client_secret): string
     {
-        if ($client_secret !== config('app.git_server.client_secret')) {
+        if ($client_secret !== config('app.deployments_api.client_secret')) {
             abort(404);
         }
 

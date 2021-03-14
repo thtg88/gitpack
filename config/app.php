@@ -268,7 +268,7 @@ return [
         'sudo_password' => env('GIT_SSH_SUDO_PASSWORD'),
     ],
 
-    'git_server' => [
-        'client_secret' => env('GIT_SERVER_CLIENT_SECRET'),
+    'deployments_api' => [
+        'client_secret' => env('DEPLOYMENTS_API_CLIENT_SECRET'),
     ],
 ];
