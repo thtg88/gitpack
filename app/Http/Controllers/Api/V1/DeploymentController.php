@@ -18,6 +18,7 @@ class DeploymentController extends Controller
     public function failCurrent(Request $request, App $app)
     {
         $request->validate([
+            'client_secret' => 'required|string',
             'sha' => 'required|string|sha',
         ]);
 
@@ -29,6 +30,7 @@ class DeploymentController extends Controller
             'state' => Started::$name,
         ])->firstOrFail();
 
+        $this->verifyClientSecretOrFail($input['client_secret']);
         $this->verfiyShaOrFail($app, $input['sha']);
 
         try {
@@ -43,6 +45,7 @@ class DeploymentController extends Controller
     public function start(Request $request, App $app)
     {
         $request->validate([
+            'client_secret' => 'required|string',
             'email' => 'required|string|email',
             'sha' => 'required|string|sha',
         ]);
@@ -51,6 +54,7 @@ class DeploymentController extends Controller
 
         $user = User::where('email', $input['email'])->firstOrFail();
 
+        $this->verifyClientSecretOrFail($input['client_secret']);
         $this->verfiyShaOrFail($app, $input['sha']);
 
         // check there isn't an existing deployment ongoing
@@ -74,6 +78,7 @@ class DeploymentController extends Controller
     public function succeedCurrent(Request $request, App $app)
     {
         $request->validate([
+            'client_secret' => 'required|string',
             'sha' => 'required|string|sha',
         ]);
 
@@ -85,6 +90,7 @@ class DeploymentController extends Controller
             'state' => Started::$name,
         ])->firstOrFail();
 
+        $this->verifyClientSecretOrFail($input['client_secret']);
         $this->verfiyShaOrFail($app, $input['sha']);
 
         try {
@@ -94,6 +100,15 @@ class DeploymentController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    private function verifyClientSecretOrFail(string $client_secret): string
+    {
+        if ($client_secret !== config('app.git_server.client_secret')) {
+            abort(404);
+        }
+
+        return $client_secret;
     }
 
     private function verfiyShaOrFail(App $app, string $sha): string
