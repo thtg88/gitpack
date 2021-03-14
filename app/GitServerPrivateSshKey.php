@@ -13,21 +13,21 @@ final class GitServerPrivateSshKey
      *
      * @var string
      */
-    protected $contents;
+    private $contents;
 
     /**
      * The key tmp file descriptor.
      *
      * @var resource
      */
-    protected $tmp_file;
+    private $tmp_file;
 
     /**
      * The key tmp file name.
      *
      * @var string
      */
-    protected $tmp_filename;
+    private $tmp_filename;
 
     /**
      * Create new SSH key instance.
