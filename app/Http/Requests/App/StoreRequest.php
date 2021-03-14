@@ -31,6 +31,8 @@ class StoreRequest extends BaseStoreRequest
     public function rules(): array
     {
         return [
+            'aws_client_id' => 'required|string|max:255',
+            'aws_client_secret' => 'required|string|max:255',
             'name' => [
                 'required',
                 'string',
