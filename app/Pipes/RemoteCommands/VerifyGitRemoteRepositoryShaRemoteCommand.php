@@ -14,9 +14,10 @@ final class VerifyGitRemoteRepositoryShaRemoteCommand extends RemoteCommand
         $repository = $traveler->getGitoliteConf()->getRepositoryName();
 
         $sha = $traveler->getSha();
+        $timestamp = $traveler->getTimestamp();
 
         return $this->sudoWrap(
-            'git --git-dir=/home/git/repositories/'.$repository.'.git '.
+            'git --git-dir=/home/git/'.$repository.'-'.$timestamp.'.git '.
                 'rev-parse --verify '.$sha,
             $repository
         );
