@@ -2,6 +2,7 @@
 
 namespace App\Jobs\GitRemoteRepository;
 
+use App\Actions\GitRemoteRepository\CloneAction;
 use App\Actions\GitRemoteRepository\InitAction;
 use App\Jobs\Job;
 use App\Models\App;
@@ -17,5 +18,9 @@ final class InitJob extends Job
         $init = new InitAction($this->app);
 
         $init();
+
+        $clone = new CloneAction($this->app);
+
+        $clone();
     }
 }
