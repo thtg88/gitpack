@@ -25,6 +25,8 @@ class DeploymentController extends Controller
 
         $input = $request->only('client_secret', 'sha', 'timestamp');
 
+        // TODO make sure app belongs to user!!!
+
         $deployment = Deployment::where([
             'app_id' => $app->id,
             'sha' => $input['sha'],
@@ -55,6 +57,8 @@ class DeploymentController extends Controller
         $input = $request->only('client_secret', 'email', 'sha', 'timestamp');
 
         $user = User::where('email', $input['email'])->firstOrFail();
+
+        // TODO make sure app belongs to user!!!
 
         $this->verifyClientSecretOrFail($input['client_secret']);
         $this->verfiyShaOrFail($app, $input['sha'], $input['timestamp']);
@@ -98,6 +102,8 @@ class DeploymentController extends Controller
         ]);
 
         $input = $request->only('client_secret', 'sha', 'timestamp');
+
+        // TODO make sure app belongs to user!!!
 
         $deployment = Deployment::where([
             'app_id' => $app->id,
