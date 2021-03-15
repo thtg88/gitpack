@@ -20,6 +20,7 @@ final class RemoveRemoteSshKeysPipeline extends Pipeline
         GitAddModifiedFilesRemoteCommand::class,
         GitCommitRemoteCommand::class,
         GitPushRemoteCommand::class,
+        // TODO: remove repository copy
     ];
 
     public static function run(
