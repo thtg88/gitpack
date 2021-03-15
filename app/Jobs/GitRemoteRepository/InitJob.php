@@ -14,8 +14,8 @@ final class InitJob extends Job
 
     public function handle(): void
     {
-        $action = new InitAction($this->app);
+        $init = new InitAction($this->app);
 
-        $action();
+        $init();
     }
 }

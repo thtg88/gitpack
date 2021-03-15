@@ -20,7 +20,6 @@ final class InitGitRemoteRepositoryPipeline extends Pipeline
         GitAddModifiedFilesRemoteCommand::class,
         GitCommitRemoteCommand::class,
         GitPushRemoteCommand::class,
-
     ];
 
     public static function run(InitTraveler $traveler): InitTraveler
