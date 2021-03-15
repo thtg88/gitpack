@@ -14,8 +14,11 @@ final class VerifyShaAction extends SshAction
     /** @var string */
     private const COMMIT_SHA_TYPE = 'commit';
 
-    public function __construct(private App $app, private string $sha)
-    {
+    public function __construct(
+        private App $app,
+        private string $sha,
+        private string $timestamp,
+    ) {
     }
 
     public function __invoke(): bool
@@ -91,6 +94,7 @@ final class VerifyShaAction extends SshAction
         $conf = new Conf($this->app->name, config('app.git_ssh.user'));
 
         return (new VerifyShaTraveler())->setGitoliteConf($conf)
-            ->setSha($this->sha);
+            ->setSha($this->sha)
+            ->setTimestamp($this->timestamp);
     }
 }

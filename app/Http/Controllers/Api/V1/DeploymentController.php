@@ -20,9 +20,10 @@ class DeploymentController extends Controller
         $request->validate([
             'client_secret' => 'required|string',
             'sha' => 'required|string|sha',
+            'timestamp' => 'required|integer|min:0',
         ]);
 
-        $input = $request->only('client_secret', 'sha');
+        $input = $request->only('client_secret', 'sha', 'timestamp');
 
         $deployment = Deployment::where([
             'app_id' => $app->id,
@@ -31,7 +32,7 @@ class DeploymentController extends Controller
         ])->firstOrFail();
 
         $this->verifyClientSecretOrFail($input['client_secret']);
-        $this->verfiyShaOrFail($app, $input['sha']);
+        $this->verfiyShaOrFail($app, $input['sha'], $input['timestamp']);
 
         try {
             $deployment->state->transitionTo(Failed::class);
@@ -48,14 +49,15 @@ class DeploymentController extends Controller
             'client_secret' => 'required|string',
             'email' => 'required|string|email',
             'sha' => 'required|string|sha',
+            'timestamp' => 'required|integer|min:0',
         ]);
 
-        $input = $request->only('client_secret', 'email', 'sha');
+        $input = $request->only('client_secret', 'email', 'sha', 'timestamp');
 
         $user = User::where('email', $input['email'])->firstOrFail();
 
         $this->verifyClientSecretOrFail($input['client_secret']);
-        $this->verfiyShaOrFail($app, $input['sha']);
+        $this->verfiyShaOrFail($app, $input['sha'], $input['timestamp']);
 
         // check there isn't an existing deployment ongoing
         $deployment = Deployment::firstWhere([
@@ -92,9 +94,10 @@ class DeploymentController extends Controller
         $request->validate([
             'client_secret' => 'required|string',
             'sha' => 'required|string|sha',
+            'timestamp' => 'required|integer|min:0',
         ]);
 
-        $input = $request->only('client_secret', 'sha');
+        $input = $request->only('client_secret', 'sha', 'timestamp');
 
         $deployment = Deployment::where([
             'app_id' => $app->id,
@@ -103,7 +106,7 @@ class DeploymentController extends Controller
         ])->firstOrFail();
 
         $this->verifyClientSecretOrFail($input['client_secret']);
-        $this->verfiyShaOrFail($app, $input['sha']);
+        $this->verfiyShaOrFail($app, $input['sha'], $input['timestamp']);
 
         try {
             $deployment->state->transitionTo(Succeeded::class);
@@ -123,9 +126,12 @@ class DeploymentController extends Controller
         return $client_secret;
     }
 
-    private function verfiyShaOrFail(App $app, string $sha): string
-    {
-        $action = new VerifyShaAction($app, $sha);
+    private function verfiyShaOrFail(
+        App $app,
+        string $sha,
+        string $timestamp,
+    ): string {
+        $action = new VerifyShaAction($app, $sha, $timestamp);
 
         $is_valid_sha = $action();
 
