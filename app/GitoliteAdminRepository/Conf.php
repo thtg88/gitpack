@@ -8,7 +8,7 @@ class Conf
     private const FILE_EXTENSION = 'conf';
 
     /** @var string */
-    private const FOLDER_NAME = 'conf';
+    private const FOLDER_NAME = 'conf/repos';
 
     /**
      * Create a new Gitolite repository configuration instance.
