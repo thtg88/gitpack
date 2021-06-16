@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Repository implements RepositoryInterface
 {
-    use Concerns\WithAllModels,
-        Concerns\WithCreate,
-        Concerns\WithDestroy,
-        Concerns\WithFind,
-        Concerns\WithGet,
-        Concerns\WithPagination,
-        Concerns\WithSearch,
-        Concerns\WithUpdate;
+    use Concerns\WithAllModels;
+    use Concerns\WithCreate;
+    use Concerns\WithDestroy;
+    use Concerns\WithFind;
+    use Concerns\WithGet;
+    use Concerns\WithPagination;
+    use Concerns\WithSearch;
+    use Concerns\WithUpdate;
 
     /**
      * The repository model.
