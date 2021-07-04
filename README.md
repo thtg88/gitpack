@@ -12,6 +12,8 @@ The idea was that by using Spatie's [SSH](https://github.com/spatie/ssh) package
 
 GitPack also uses [Bref](https://bref.sh/) and [Serverless](https://www.serverless.com/) under the hood to complete the deployment.
 
+Finally, the git server runs [Gitolite](https://github.com/sitaramc/gitolite) to manage the different git remotes and user permissions
+
 ## Development
 
 ### Requirements
