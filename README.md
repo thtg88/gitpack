@@ -1,5 +1,7 @@
 # GitPack
 
+**Please note the project has now been abandoned and is not actively maintained anymore**
+
 GitPack aims at making git-based deployments to AWS Lambda for Laravel applications. You get given a git remote, so you are a simple `git push` away from having your Laravel application on Lambda.
 
 ## Usage
